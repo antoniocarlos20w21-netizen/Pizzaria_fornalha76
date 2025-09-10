@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -6,77 +6,38 @@
   <title>Pizzaria Fornalha 76</title>
   <link rel="icon" type="image/png" href="logo.png">
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #1a1a1a;
-      color: #f8f8f8;
-    }
-    header { background: #000; text-align: center; padding: 20px; }
-    header img { max-width: 150px; }
-    header h1 { margin: 10px 0 5px; font-size: 2em; color: #e63946; }
-    header p { font-size: 1.1em; color: #f1c40f; }
-    nav { background: #e63946; text-align: center; padding: 10px; }
-    nav a { color: #fff; text-decoration: none; margin: 0 15px; font-weight: bold; }
-    section { padding: 40px 20px; max-width: 1000px; margin: auto; }
-    h2 { text-align: center; color: #f1c40f; margin-bottom: 20px; }
-    .cardapio { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    body { margin:0; font-family:Arial,sans-serif; background:#1a1a1a; color:#f8f8f8; }
+    header { background:#000; text-align:center; padding:20px; }
+    header img { max-width:150px; }
+    header h1 { margin:10px 0 5px; font-size:2em; color:#e63946; }
+    header p { font-size:1.1em; color:#f1c40f; }
+    nav { background:#e63946; text-align:center; padding:10px; }
+    nav a { color:#fff; text-decoration:none; margin:0 15px; font-weight:bold; }
+    section { padding:40px 20px; max-width:1000px; margin:auto; }
+    h2 { text-align:center; color:#f1c40f; margin-bottom:20px; }
+    .cardapio { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; }
     .item-cardapio {
-      background-size: cover;
-      background-position: center;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
-      transition: transform 0.3s, box-shadow 0.3s;
-      color: #fff;
-      position: relative;
-      overflow: hidden;
+      background-size:cover; background-position:center; padding:20px; border-radius:12px; text-align:center;
+      box-shadow:0 4px 8px rgba(0,0,0,0.5); transition:.3s; color:#fff; position:relative; overflow:hidden;
     }
     .item-cardapio::before {
-      content: "";
-      position: absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      background: rgba(0,0,0,0.6);
-      border-radius: 12px;
-      z-index: 0;
+      content:""; position:absolute; inset:0; background:rgba(0,0,0,0.6); border-radius:12px; z-index:0;
     }
-    .item-cardapio h3, .item-cardapio p, .item-cardapio span, .item-cardapio select, .item-cardapio .quantidade-container, .item-cardapio button {
-      position: relative;
-      z-index: 1;
-    }
-    .item-cardapio h3 { margin: 10px 0; }
-    .item-cardapio p { font-size: 0.9em; }
-    .item-cardapio span { display: block; margin: 10px 0; font-weight: bold; color: #f1c40f; }
-    .item-cardapio select { margin: 5px 0; padding: 5px; border-radius: 6px; border: none; font-size: 0.9em; }
-    .quantidade-container { display: flex; justify-content: center; align-items: center; margin: 5px 0; gap: 5px; }
-    .quantidade-container button { background: #e63946; border: none; color: #fff; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 1em; }
-    .quantidade-container input { width: 50px; text-align: center; padding: 5px; border-radius: 6px; border: none; }
-    .item-cardapio button.add { display: block; margin: 10px auto 0; padding: 10px 15px; background: #e63946; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s; }
-    .item-cardapio button.add:hover { background: #c72c3b; }
-    #carrinho { background: #111; padding: 20px; margin-top: 40px; border-radius: 12px; max-width: 600px; margin-left: auto; margin-right: auto; }
-    #carrinho h2 { margin-bottom: 15px; text-align: center; }
-    #itens-carrinho { margin-bottom: 15px; }
-    .item-carrinho {
-      background: #2a2a2a;
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background 0.3s;
-    }
-    .item-carrinho:hover { background: #3a3a3a; }
-    .item-carrinho span { font-size: 0.9em; }
-    .item-carrinho button { background: #e63946; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; color: #fff; margin-left: 5px; }
-    #total { font-weight: bold; color: #f1c40f; margin-top: 10px; text-align: right; }
-    #finalizar { display: block; padding: 12px 20px; background: #f1c40f; color: #000; font-weight: bold; border-radius: 8px; text-decoration: none; margin: 20px auto 0; width: fit-content; }
-    footer { background: #000; text-align: center; padding: 20px; font-size: 0.9em; color: #ccc; }
-    footer a { color: #e63946; text-decoration: none; }
+    .item-cardapio * { position:relative; z-index:1; }
+    .item-cardapio h3 { margin:10px 0; }
+    .item-cardapio span { display:block; margin:10px 0; font-weight:bold; color:#f1c40f; }
+    .quantidade-container { display:flex; justify-content:center; align-items:center; gap:5px; margin:5px 0; }
+    .quantidade-container button { background:#e63946; border:none; color:#fff; padding:5px 10px; border-radius:6px; cursor:pointer; }
+    .quantidade-container input { width:50px; text-align:center; border:none; border-radius:6px; }
+    .item-cardapio button.add { margin-top:10px; padding:10px 15px; background:#e63946; border:none; border-radius:8px; color:#fff; cursor:pointer; }
+    #carrinho { background:#111; padding:20px; margin-top:40px; border-radius:12px; max-width:600px; margin:auto; }
+    .item-carrinho { background:#2a2a2a; padding:10px; margin:5px 0; border-radius:8px; display:flex; justify-content:space-between; align-items:center; }
+    .item-carrinho button { background:#e63946; border:none; padding:5px 10px; border-radius:6px; color:#fff; margin-left:5px; }
+    #resumo { margin-top:15px; background:#222; padding:15px; border-radius:8px; }
+    #resumo p { margin:5px 0; }
+    #finalizar { display:block; padding:12px 20px; background:#f1c40f; color:#000; font-weight:bold; border-radius:8px; text-decoration:none; margin:20px auto 0; width:fit-content; }
+    footer { background:#000; text-align:center; padding:20px; font-size:.9em; color:#ccc; }
+    footer a { color:#e63946; text-decoration:none; }
   </style>
 </head>
 <body>
@@ -86,12 +47,6 @@
     <p>Da chama ao sabor 🍕🔥</p>
   </header>
 
-  <nav>
-    <a href="#cardapio">Cardápio</a>
-    <a href="#carrinho">Carrinho</a>
-    <a href="https://www.instagram.com/pizzariafornalha76" target="_blank">Instagram</a>
-  </nav>
-
   <section id="cardapio">
     <h2>Nosso Cardápio</h2>
     <div class="cardapio" id="lista-cardapio"></div>
@@ -100,10 +55,27 @@
   <section id="carrinho">
     <h2>🛒 Carrinho de Compras</h2>
     <div id="itens-carrinho"></div>
-    <div id="total">Total: R$0</div>
-    <div style="margin-top:15px; text-align:center;">
-      <label for="endereco" style="display:block; margin-bottom:5px; color:#f1c40f;">📍 Endereço de Entrega:</label>
-      <input type="text" id="endereco" placeholder="Digite seu endereço" style="width:90%; padding:8px; border-radius:6px; border:none; text-align:left;">
+    <div id="resumo">
+      <p>Itens: R$<span id="valor-itens">0</span></p>
+      <p>Desconto: R$<span id="valor-desconto">0</span></p>
+      <p>Entrega: R$<span id="valor-entrega">5</span></p>
+      <p><b>Total: R$<span id="valor-total">0</span></b></p>
+    </div>
+    <div style="margin-top:15px;">
+      <label>📍 Endereço:</label>
+      <input type="text" id="endereco" placeholder="Digite seu endereço" style="width:100%; padding:8px; border-radius:6px; border:none;">
+    </div>
+    <div style="margin-top:15px;">
+      <label>💳 Pagamento:</label>
+      <select id="pagamento" style="width:100%; padding:8px; border-radius:6px;">
+        <option>Dinheiro</option>
+        <option>Cartão</option>
+        <option>Pix</option>
+      </select>
+    </div>
+    <div style="margin-top:15px;">
+      <label>Troco para:</label>
+      <input type="number" id="troco" placeholder="Ex: 100" style="width:100%; padding:8px; border-radius:6px; border:none;">
     </div>
     <a id="finalizar" href="javascript:void(0)" onclick="finalizarPedido()">Finalizar Pedido no WhatsApp</a>
   </section>
@@ -115,152 +87,105 @@
   </footer>
 
   <script>
-    const precos = {
-      Broto: 25, Média: 35, Grande: 45, Família: 55,
-      "Refrigerante 1L": 10, "Refrigerante 2L": 15, "Refrigerante Lata": 5
-    };
-
+    const precos = { Broto:25, Média:35, Grande:45, Família:55, "Refrigerante 1L":10, "Refrigerante 2L":15, "Refrigerante Lata":5 };
     let carrinho = [];
+    const taxaEntrega = 5;
 
     const cardapio = [
-      { nome: "Calabresa", desc: "Molho de tomate, queijo, calabresa e cebola.", img: "https://via.placeholder.com/300x180?text=Calabresa", tipo:"pizza" },
-      { nome: "Frango c/ Catupiry", desc: "Molho de tomate, queijo, frango desfiado e catupiry.", img: "https://via.placeholder.com/300x180?text=Frango+Catupiry", tipo:"pizza" },
-      { nome: "Portuguesa", desc: "Molho de tomate, queijo, presunto, ovo, cebola e azeitona.", img: "https://via.placeholder.com/300x180?text=Portuguesa", tipo:"pizza" },
-      { nome: "Marguerita", desc: "Molho de tomate, queijo e manjericão fresco.", img: "https://via.placeholder.com/300x180?text=Marguerita", tipo:"pizza" },
-      { nome: "Napolitana", desc: "Molho de tomate, queijo, tomate e orégano.", img: "https://via.placeholder.com/300x180?text=Napolitana", tipo:"pizza" },
-      { nome: "Atum", desc: "Molho de tomate, queijo, atum, cebola e azeitona.", img: "https://via.placeholder.com/300x180?text=Atum", tipo:"pizza" },
-      { nome: "Quatro Queijos", desc: "Molho de tomate e mistura de queijos: mussarela, provolone, catupiry e parmesão.", img: "https://via.placeholder.com/300x180?text=4+Queijos", tipo:"pizza" },
-      { nome: "Baiana", desc: "Molho de tomate, queijo, calabresa, ovo e pimenta.", img: "https://via.placeholder.com/300x180?text=Baiana", tipo:"pizza" },
-      { nome: "Vegetariana", desc: "Molho de tomate, queijo, tomate, cebola, milho, azeitona e pimentão.", img: "https://via.placeholder.com/300x180?text=Vegetariana", tipo:"pizza" },
-      { nome: "Refrigerante 1L", desc: "Refrigerante 1 litro", img: "https://via.placeholder.com/300x180?text=Refrigerante+1L", tipo:"bebida" },
-      { nome: "Refrigerante 2L", desc: "Refrigerante 2 litros", img: "https://via.placeholder.com/300x180?text=Refrigerante+2L", tipo:"bebida" },
-      { nome: "Refrigerante Lata", desc: "Refrigerante em lata", img: "https://via.placeholder.com/300x180?text=Refrigerante+Lata", tipo:"bebida" },
+      { nome:"Calabresa", desc:"Molho, queijo, calabresa e cebola.", tipo:"pizza" },
+      { nome:"Frango c/ Catupiry", desc:"Molho, queijo, frango desfiado e catupiry.", tipo:"pizza" },
+      { nome:"Refrigerante 2L", desc:"Bebida gelada", tipo:"bebida" }
     ];
 
     const lista = document.getElementById("lista-cardapio");
-
-    cardapio.forEach(item => {
-      const card = document.createElement("div");
-      card.className = "item-cardapio";
-      card.style.backgroundImage = `url('${item.img}')`;
-      const idNome = item.nome.replace(/\s/g,'');
-      if(item.tipo === "pizza"){
-        card.innerHTML += `
-          <h3>${item.nome}</h3>
-          <p>${item.desc}</p>
+    cardapio.forEach(item=>{
+      const card=document.createElement("div");
+      card.className="item-cardapio";
+      if(item.tipo==="pizza"){
+        card.innerHTML=`
+          <h3>${item.nome}</h3><p>${item.desc}</p>
           <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-          <select id="tamanho-${idNome}">
-            <option>Broto</option>
-            <option>Média</option>
-            <option>Grande</option>
-            <option>Família</option>
+          <select id="tamanho-${item.nome.replace(/\s/g,'')}">
+            <option>Broto</option><option>Média</option><option>Grande</option><option>Família</option>
           </select>
           <div class="quantidade-container">
-            <button onclick="alterarQuantidade('${idNome}', -1)">-</button>
-            <input type="number" id="qtd-${idNome}" value="1" min="1">
-            <button onclick="alterarQuantidade('${idNome}', 1)">+</button>
+            <button onclick="alterarQuantidade('${item.nome}',-1)">-</button>
+            <input type="number" id="qtd-${item.nome}" value="1" min="1">
+            <button onclick="alterarQuantidade('${item.nome}',1)">+</button>
           </div>
-          <button class="add" onclick="adicionarCarrinho('${idNome}')">Adicionar ao Carrinho</button>
+          <button class="add" onclick="adicionarCarrinho('${item.nome}')">Adicionar</button>
         `;
       } else {
-        card.innerHTML += `
-          <h3>${item.nome}</h3>
-          <p>${item.desc}</p>
+        card.innerHTML=`
+          <h3>${item.nome}</h3><p>${item.desc}</p>
           <span>R$${precos[item.nome]}</span>
           <div class="quantidade-container">
-            <button onclick="alterarQuantidade('${idNome}', -1)">-</button>
-            <input type="number" id="qtd-${idNome}" value="1" min="1">
-            <button onclick="alterarQuantidade('${idNome}', 1)">+</button>
+            <button onclick="alterarQuantidade('${item.nome}',-1)">-</button>
+            <input type="number" id="qtd-${item.nome}" value="1" min="1">
+            <button onclick="alterarQuantidade('${item.nome}',1)">+</button>
           </div>
-          <button class="add" onclick="adicionarCarrinho('${idNome}')">Adicionar ao Carrinho</button>
+          <button class="add" onclick="adicionarCarrinho('${item.nome}')">Adicionar</button>
         `;
       }
       lista.appendChild(card);
     });
 
-    function alterarQuantidade(id, delta){
-      const input = document.getElementById(`qtd-${id}`);
-      let val = parseInt(input.value) + delta;
-      if(val < 1) val = 1;
-      input.value = val;
+    function alterarQuantidade(id,delta){
+      const input=document.getElementById(`qtd-${id}`);
+      let val=parseInt(input.value)+delta;
+      if(val<1) val=1;
+      input.value=val;
     }
 
-    function adicionarCarrinho(sabor) {
-      const tamanhoSelect = document.getElementById(`tamanho-${sabor}`);
-      const tamanho = tamanhoSelect ? tamanhoSelect.value : "";
-      const quantidade = parseInt(document.getElementById(`qtd-${sabor}`).value);
-
-      const indexExistente = carrinho.findIndex(item => item.sabor === sabor && item.tamanho === tamanho);
-      if(indexExistente >= 0){
-        carrinho[indexExistente].quantidade += quantidade;
-      } else {
-        carrinho.push({ sabor, tamanho, quantidade });
-      }
-
+    function adicionarCarrinho(nome){
+      const tamanhoSelect=document.getElementById(`tamanho-${nome.replace(/\s/g,'')}`);
+      const tamanho=tamanhoSelect?tamanhoSelect.value:"";
+      const quantidade=parseInt(document.getElementById(`qtd-${nome}`).value);
+      carrinho.push({nome,tamanho,quantidade});
       atualizarCarrinho();
     }
 
-    function atualizarCarrinho() {
-      const container = document.getElementById("itens-carrinho");
-      container.innerHTML = "";
-      let total = 0;
-
-      carrinho.forEach((item, index) => {
-        const precoUnit = item.tamanho ? precos[item.tamanho] : precos[item.sabor];
-        const subtotal = precoUnit * item.quantidade;
-        total += subtotal;
-        container.innerHTML += `
+    function atualizarCarrinho(){
+      const itens=document.getElementById("itens-carrinho");
+      itens.innerHTML="";
+      let subtotal=0;
+      carrinho.forEach((item,i)=>{
+        const precoUnit=item.tamanho?precos[item.tamanho]:precos[item.nome];
+        const valor=precoUnit*item.quantidade;
+        subtotal+=valor;
+        itens.innerHTML+=`
           <div class="item-carrinho">
-            <span>${item.quantidade}x ${item.sabor}${item.tamanho ? " ("+item.tamanho+")" : ""} - R$${subtotal}</span>
-            <div>
-              <button onclick="alterarItemCarrinho(${index}, -1)">-</button>
-              <button onclick="alterarItemCarrinho(${index}, 1)">+</button>
-              <button onclick="removerItem(${index})">Remover</button>
-            </div>
+            <span>${item.quantidade}x ${item.nome} ${item.tamanho?`(${item.tamanho})`:""} - R$${valor}</span>
+            <button onclick="removerItem(${i})">Remover</button>
           </div>
         `;
       });
-
-      document.getElementById("total").innerText = `Total: R$${total}`;
+      document.getElementById("valor-itens").innerText=subtotal;
+      document.getElementById("valor-desconto").innerText=0;
+      document.getElementById("valor-total").innerText=subtotal+taxaEntrega;
     }
 
-    function alterarItemCarrinho(index, delta){
-      carrinho[index].quantidade += delta;
-      if(carrinho[index].quantidade < 1) carrinho[index].quantidade = 1;
-      atualizarCarrinho();
-    }
+    function removerItem(i){ carrinho.splice(i,1); atualizarCarrinho(); }
 
-    function removerItem(index) {
-      carrinho.splice(index, 1);
-      atualizarCarrinho();
-    }
-
-    function finalizarPedido() {
-      if (carrinho.length === 0) {
-        alert("Seu carrinho está vazio!");
-        return;
-      }
-
-      const endereco = document.getElementById("endereco").value.trim();
-      if(endereco === ""){
-        alert("Por favor, insira o endereço de entrega!");
-        return;
-      }
-
-      let mensagem = `Olá, gostaria de fazer o seguinte pedido:%0A`;
-      let total = 0;
-      carrinho.forEach(item => {
-        const precoUnit = item.tamanho ? precos[item.tamanho] : precos[item.sabor];
-        const subtotal = precoUnit * item.quantidade;
-        total += subtotal;
-        mensagem += `- ${item.quantidade}x ${item.sabor}${item.tamanho ? " ("+item.tamanho+")" : ""} - R$${subtotal}%0A`;
+    function finalizarPedido(){
+      if(carrinho.length===0){ alert("Seu carrinho está vazio!"); return; }
+      const endereco=document.getElementById("endereco").value;
+      const pagamento=document.getElementById("pagamento").value;
+      const troco=document.getElementById("troco").value;
+      let itensTxt="";
+      let subtotal=0;
+      carrinho.forEach(item=>{
+        const precoUnit=item.tamanho?precos[item.tamanho]:precos[item.nome];
+        const valor=precoUnit*item.quantidade;
+        subtotal+=valor;
+        itensTxt+=`${item.quantidade}x ${item.nome}${item.tamanho?` (${item.tamanho})`:""} - R$${valor}%0A`;
       });
-      mensagem += `Total: R$${total}%0A`;
-      mensagem += `Endereço de entrega: ${endereco}`;
-
-      const url = `https://wa.me/5574999041959?text=${mensagem}`;
-      window.open(url, "_blank");
+      const total=subtotal+taxaEntrega;
+      let msg=`Pedido Pizzaria Fornalha 76 🍕%0A%0A${itensTxt}%0AItens: R$${subtotal}%0ADesconto: R$0,00%0AEntrega: R$${taxaEntrega}%0ATOTAL: R$${total}%0A%0AEndereço: ${endereco}%0APagamento: ${pagamento}`;
+      if(pagamento==="Dinheiro" && troco){ msg+=`%0ATroco para: R$${troco}`; }
+      const url=`https://wa.me/5574999041959?text=${msg}`;
+      window.open(url,"_blank");
     }
   </script>
 </body>
-</html>         
+</html>                    
