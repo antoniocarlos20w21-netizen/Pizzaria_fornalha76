@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -21,21 +21,60 @@
     section { padding: 40px 20px; max-width: 1000px; margin: auto; }
     h2 { text-align: center; color: #f1c40f; margin-bottom: 20px; }
     .cardapio { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-    .pizza { background: #2a2a2a; padding: 20px; border-radius: 12px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.5); }
+    .pizza {
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .pizza:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.7);
+    }
+    .pizza img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
     .pizza h3 { margin: 10px 0; color: #fff; }
     .pizza p { font-size: 0.9em; color: #ccc; }
     .pizza span { display: block; margin: 10px 0; font-weight: bold; color: #f1c40f; }
-    .pizza select, .pizza input { margin: 5px 0; padding: 5px; border-radius: 6px; border: none; font-size: 0.9em; }
-    .pizza button { display: inline-block; margin-top: 10px; padding: 10px 15px; background: #e63946; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s; }
-    .pizza button:hover { background: #c72c3b; }
-    #carrinho { background: #111; padding: 20px; margin-top: 40px; border-radius: 12px; }
-    #carrinho h2 { margin-bottom: 15px; }
+    .pizza select { margin: 5px 0; padding: 5px; border-radius: 6px; border: none; font-size: 0.9em; }
+    .quantidade-container { display: flex; justify-content: center; align-items: center; margin: 5px 0; gap: 5px; }
+    .quantidade-container button { background: #e63946; border: none; color: #fff; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 1em; }
+    .quantidade-container input { width: 50px; text-align: center; padding: 5px; border-radius: 6px; border: none; }
+    .pizza button.add { display: block; margin: 10px auto 0; padding: 10px 15px; background: #e63946; color: #fff; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s; }
+    .pizza button.add:hover { background: #c72c3b; }
+    #carrinho {
+      background: #111;
+      padding: 20px;
+      margin-top: 40px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #carrinho h2 { margin-bottom: 15px; text-align: center; }
     #itens-carrinho { margin-bottom: 15px; }
-    .item-carrinho { background: #2a2a2a; padding: 10px; margin: 5px 0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .item-carrinho {
+      background: #2a2a2a;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+    .item-carrinho:hover { background: #3a3a3a; }
     .item-carrinho span { font-size: 0.9em; }
-    .item-carrinho button { background: #e63946; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; color: #fff; }
-    #total { font-weight: bold; color: #f1c40f; margin-top: 10px; }
-    #finalizar { display: inline-block; padding: 12px 20px; background: #f1c40f; color: #000; font-weight: bold; border-radius: 8px; text-decoration: none; margin-top: 10px; }
+    .item-carrinho button { background: #e63946; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; color: #fff; margin-left: 5px; }
+    #total { font-weight: bold; color: #f1c40f; margin-top: 10px; text-align: right; }
+    #finalizar { display: block; padding: 12px 20px; background: #f1c40f; color: #000; font-weight: bold; border-radius: 8px; text-decoration: none; margin: 20px auto 0; width: fit-content; }
     footer { background: #000; text-align: center; padding: 20px; font-size: 0.9em; color: #ccc; }
     footer a { color: #e63946; text-decoration: none; }
   </style>
@@ -55,97 +94,8 @@
 
   <section id="cardapio">
     <h2>Nosso Cardápio</h2>
-    <div class="cardapio">
-      <!-- Lista de 10 pizzas tradicionais brasileiras -->
-      <div class="pizza">
-        <h3>Calabresa</h3>
-        <p>Molho de tomate, queijo, calabresa e cebola.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Calabresa"><option>Broto</option><option>Média</option><option>Grande</option><option>Família</option></select>
-        <input type="number" id="qtd-Calabresa" value="1" min="1">
-        <button onclick="adicionarCarrinho('Calabresa')">Adicionar ao Carrinho</button>
-      </div>
-
-      <div class="pizza">
-        <h3>Frango c/ Catupiry</h3>
-        <p>Molho de tomate, queijo, frango desfiado e catupiry.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Frango"><option>Broto</option><option>Média</option><option>Grande</option><option>Família</option></select>
-        <input type="number" id="qtd-Frango" value="1" min="1">
-        <button onclick="adicionarCarrinho('Frango')">Adicionar ao Carrinho</button>
-      </div>
-
-      <div class="pizza">
-        <h3>Portuguesa</h3>
-        <p>Molho de tomate, queijo, presunto, ovo, cebola e azeitona.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Portuguesa"><option>Broto</option><option>Média</option><option>Grande</option><option>Família</option></select>
-        <input type="number" id="qtd-Portuguesa" value="1" min="1">
-        <button onclick="adicionarCarrinho('Portuguesa')">Adicionar ao Carrinho</button>
-      </div>
-
-      <div class="pizza">
-        <h3>Marguerita</h3>
-        <p>Molho de tomate, queijo e manjericão fresco.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Marguerita"><option>Broto</option><option>Média</option><option>Grande</option><option>Família</option></select>
-        <input type="number" id="qtd-Marguerita" value="1" min="1">
-        <button onclick="adicionarCarrinho('Marguerita')">Adicionar ao Carrinho</button>
-      </div>
-
-      <div class="pizza">
-        <h3>Napolitana</h3>
-        <p>Molho de tomate, queijo, tomate e orégano.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Napolitana"><option>Broto</option><option>Média</option><option>Grande</option><option>Família</option></select>
-        <input type="number" id="qtd-Napolitana" value="1" min="1">
-        <button onclick="adicionarCarrinho('Napolitana')">Adicionar ao Carrinho</button>
-      </div>
-
-      <div class="pizza">
-        <h3>Atum</h3>
-        <p>Molho de tomate, queijo, atum, cebola e azeitona.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Atum"><option>Broto</option><option>Média</option><option>Grande</option><option>Família</option></select>
-        <input type="number" id="qtd-Atum" value="1" min="1">
-        <button onclick="adicionarCarrinho('Atum')">Adicionar ao Carrinho</button>
-      </div>
-
-      <div class="pizza">
-        <h3>Quatro Queijos</h3>
-        <p>Molho de tomate e mistura de queijos: mussarela, provolone, catupiry e parmesão.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-4Queijos"><option>Broto</option><option>Média</option><option>Grande</option><option>Família</option></select>
-        <input type="number" id="qtd-4Queijos" value="1" min="1">
-        <button onclick="adicionarCarrinho('4Queijos')">Adicionar ao Carrinho</button>
-      </div>
-
-      <div class="pizza">
-        <h3>Baiana</h3>
-        <p>Molho de tomate, queijo, calabresa, ovo e pimenta.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Baiana"><option>Broto</option><option>Média</option><option>Grande</option><option>Família</option></select>
-        <input type="number" id="qtd-Baiana" value="1" min="1">
-        <button onclick="adicionarCarrinho('Baiana')">Adicionar ao Carrinho</button>
-      </div>
-
-      <div class="pizza">
-        <h3>Vegetariana</h3>
-        <p>Molho de tomate, queijo, tomate, cebola, milho, azeitona e pimentão.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Vegetariana"><option>Broto</option><option>Média</option><option>Grande</option><option>Família</option></select>
-        <input type="number" id="qtd-Vegetariana" value="1" min="1">
-        <button onclick="adicionarCarrinho('Vegetariana')">Adicionar ao Carrinho</button>
-      </div>
-
-      <div class="pizza">
-        <h3>Chocolate</h3>
-        <p>Chocolate ao leite, granulado e morango (sobremesa).</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Chocolate"><option>Broto</option><option>Média</option><option>Grande</option><option>Família</option></select>
-        <input type="number" id="qtd-Chocolate" value="1" min="1">
-        <button onclick="adicionarCarrinho('Chocolate')">Adicionar ao Carrinho</button>
-      </div>
+    <div class="cardapio" id="lista-pizzas">
+      <!-- Aqui será inserido o cardápio via JS -->
     </div>
   </section>
 
@@ -165,6 +115,52 @@
   <script>
     const precos = { Broto: 25, Média: 35, Grande: 45, Família: 55 };
     let carrinho = [];
+
+    const pizzas = [
+      { nome: "Calabresa", desc: "Molho de tomate, queijo, calabresa e cebola.", img: "https://via.placeholder.com/300x180?text=Calabresa" },
+      { nome: "Frango c/ Catupiry", desc: "Molho de tomate, queijo, frango desfiado e catupiry.", img: "https://via.placeholder.com/300x180?text=Frango+Catupiry" },
+      { nome: "Portuguesa", desc: "Molho de tomate, queijo, presunto, ovo, cebola e azeitona.", img: "https://via.placeholder.com/300x180?text=Portuguesa" },
+      { nome: "Marguerita", desc: "Molho de tomate, queijo e manjericão fresco.", img: "https://via.placeholder.com/300x180?text=Marguerita" },
+      { nome: "Napolitana", desc: "Molho de tomate, queijo, tomate e orégano.", img: "https://via.placeholder.com/300x180?text=Napolitana" },
+      { nome: "Atum", desc: "Molho de tomate, queijo, atum, cebola e azeitona.", img: "https://via.placeholder.com/300x180?text=Atum" },
+      { nome: "Quatro Queijos", desc: "Molho de tomate e mistura de queijos: mussarela, provolone, catupiry e parmesão.", img: "https://via.placeholder.com/300x180?text=4+Queijos" },
+      { nome: "Baiana", desc: "Molho de tomate, queijo, calabresa, ovo e pimenta.", img: "https://via.placeholder.com/300x180?text=Baiana" },
+      { nome: "Vegetariana", desc: "Molho de tomate, queijo, tomate, cebola, milho, azeitona e pimentão.", img: "https://via.placeholder.com/300x180?text=Vegetariana" },
+      { nome: "Chocolate", desc: "Chocolate ao leite, granulado e morango.", img: "https://via.placeholder.com/300x180?text=Chocolate" },
+    ];
+
+    const lista = document.getElementById("lista-pizzas");
+
+    pizzas.forEach(pizza => {
+      const card = document.createElement("div");
+      card.className = "pizza";
+      card.innerHTML = `
+        <img src="${pizza.img}" alt="${pizza.nome}">
+        <h3>${pizza.nome}</h3>
+        <p>${pizza.desc}</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-${pizza.nome.replace(/\s/g,'')}">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <div class="quantidade-container">
+          <button onclick="alterarQuantidade('${pizza.nome.replace(/\s/g,'')}', -1)">-</button>
+          <input type="number" id="qtd-${pizza.nome.replace(/\s/g,'')}" value="1" min="1">
+          <button onclick="alterarQuantidade('${pizza.nome.replace(/\s/g,'')}', 1)">+</button>
+        </div>
+        <button class="add" onclick="adicionarCarrinho('${pizza.nome.replace(/\s/g,'')}')">Adicionar ao Carrinho</button>
+      `;
+      lista.appendChild(card);
+    });
+
+    function alterarQuantidade(id, delta){
+      const input = document.getElementById(`qtd-${id}`);
+      let val = parseInt(input.value) + delta;
+      if(val < 1) val = 1;
+      input.value = val;
+    }
 
     function adicionarCarrinho(sabor) {
       const tamanho = document.getElementById(`tamanho-${sabor}`).value;
@@ -191,12 +187,22 @@
         container.innerHTML += `
           <div class="item-carrinho">
             <span>${item.quantidade}x ${item.sabor} (${item.tamanho}) - R$${subtotal}</span>
-            <button onclick="removerItem(${index})">Remover</button>
+            <div>
+              <button onclick="alterarItemCarrinho(${index}, -1)">-</button>
+              <button onclick="alterarItemCarrinho(${index}, 1)">+</button>
+              <button onclick="removerItem(${index})">Remover</button>
+            </div>
           </div>
         `;
       });
 
       document.getElementById("total").innerText = `Total: R$${total}`;
+    }
+
+    function alterarItemCarrinho(index, delta){
+      carrinho[index].quantidade += delta;
+      if(carrinho[index].quantidade < 1) carrinho[index].quantidade = 1;
+      atualizarCarrinho();
     }
 
     function removerItem(index) {
@@ -224,5 +230,4 @@
     }
   </script>
 </body>
-          </html>
-  
+</html>
