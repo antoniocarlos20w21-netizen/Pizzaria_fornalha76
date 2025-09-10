@@ -1,4 +1,4 @@
-            <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -9,8 +9,6 @@
     header { background:#000; text-align:center; padding:20px; }
     header h1 { margin:10px 0 5px; font-size:2em; color:#e63946; }
     header p { font-size:1.1em; color:#f1c40f; }
-    nav { background:#e63946; text-align:center; padding:10px; }
-    nav a { color:#fff; text-decoration:none; margin:0 15px; font-weight:bold; }
     section { padding:40px 20px; max-width:1000px; margin:auto; }
     h2 { text-align:center; color:#f1c40f; margin-bottom:20px; }
     .cardapio { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; }
@@ -24,6 +22,7 @@
     .item-carrinho { background:#2a2a2a; padding:10px; margin:5px 0; border-radius:8px; display:flex; justify-content:space-between; align-items:center; }
     .item-carrinho button { background:#e63946; border:none; padding:5px 10px; border-radius:6px; color:#fff; }
     #finalizar { display:block; padding:12px 20px; background:#f1c40f; color:#000; font-weight:bold; border-radius:8px; text-decoration:none; margin:20px auto 0; width:fit-content; }
+    input, select { margin-top:5px; }
   </style>
 </head>
 <body>
@@ -40,6 +39,15 @@
   <section id="carrinho">
     <h2>🛒 Carrinho</h2>
     <div id="itens-carrinho"></div>
+
+    <div style="margin-top:15px;">
+      <label>🙍 Nome:</label>
+      <input type="text" id="nomeCliente" placeholder="Seu nome" style="width:100%; padding:8px; border-radius:6px; border:none;">
+    </div>
+    <div style="margin-top:15px;">
+      <label>📞 Telefone:</label>
+      <input type="tel" id="telefoneCliente" placeholder="(DDD) 90000-0000" style="width:100%; padding:8px; border-radius:6px; border:none;">
+    </div>
     <div style="margin-top:15px;">
       <label>📍 Endereço:</label>
       <input type="text" id="endereco" placeholder="Digite seu endereço" style="width:100%; padding:8px; border-radius:6px; border:none;">
@@ -47,12 +55,13 @@
     <div style="margin-top:15px;">
       <label>💳 Pagamento:</label>
       <select id="pagamento" style="width:100%; padding:8px; border-radius:6px;">
-        <option>Dinheiro</option>
-        <option>Cartão</option>
-        <option>Pix</option>
+        <option value="">Selecione</option>
+        <option value="Dinheiro">Dinheiro</option>
+        <option value="Cartão">Cartão</option>
+        <option value="Pix">Pix</option>
       </select>
     </div>
-    <div style="margin-top:15px;">
+    <div style="margin-top:15px;" id="troco-container" hidden>
       <label>Troco para:</label>
       <input type="number" id="troco" placeholder="Ex: 100" style="width:100%; padding:8px; border-radius:6px; border:none;">
     </div>
@@ -62,7 +71,7 @@
   <script>
     const precos = { "Pizza Média":35, "Pizza Grande":45, "Refrigerante 2L":15 };
     let carrinho = [];
-    const taxaEntrega = 3; // igual na imagem
+    const taxaEntrega = 3;
 
     const cardapio = [
       { nome:"Pizza Média", preco:35 },
@@ -75,7 +84,7 @@
       const card=document.createElement("div");
       card.className="item-cardapio";
       card.innerHTML=`
-        <h3>${item.nome}</h3><span>R$${item.preco}</span>
+        <h3>${item.nome}</h3><span>R$${item.preco},00</span>
         <div class="quantidade-container">
           <button onclick="alterarQuantidade('${item.nome}',-1)">-</button>
           <input type="number" id="qtd-${item.nome}" value="1" min="1">
@@ -106,7 +115,7 @@
         const valor=item.preco*item.quantidade;
         itens.innerHTML+=`
           <div class="item-carrinho">
-            <span>${item.quantidade}x ${item.nome} - R$${valor}</span>
+            <span>${item.quantidade}x ${item.nome} - R$${valor},00</span>
             <button onclick="removerItem(${i})">Remover</button>
           </div>
         `;
@@ -115,12 +124,29 @@
 
     function removerItem(i){ carrinho.splice(i,1); atualizarCarrinho(); }
 
+    document.getElementById("pagamento").addEventListener("change", function(){
+      document.getElementById("troco-container").hidden = this.value !== "Dinheiro";
+    });
+
     function finalizarPedido(){
       if(carrinho.length===0){ alert("Seu carrinho está vazio!"); return; }
 
-      const endereco=document.getElementById("endereco").value;
+      const nome=document.getElementById("nomeCliente").value.trim();
+      const telefone=document.getElementById("telefoneCliente").value.trim();
+      const endereco=document.getElementById("endereco").value.trim();
       const pagamento=document.getElementById("pagamento").value;
       const troco=document.getElementById("troco").value;
+
+      if(!nome || !telefone || !endereco || !pagamento){
+        alert("Por favor, preencha todos os campos obrigatórios!");
+        return;
+      }
+
+      // Pega hora atual
+      const agora = new Date();
+      const hora = agora.getHours().toString().padStart(2,'0');
+      const minuto = agora.getMinutes().toString().padStart(2,'0');
+      const horario = `${hora}:${minuto}`;
 
       let subtotal=0;
       let itensTxt="";
@@ -132,13 +158,12 @@
 
       const total=subtotal+taxaEntrega;
 
-      // === Formato igual à imagem ===
       let msg=`ORDER/PIZZARIAFORNALHA76%0A`;
-      msg+=`Pedido Pizzaria Fornalha 76:%0A`;
+      msg+=`Pedido Pizzaria Fornalha 76 (${horario}):%0A`;
       msg+=`Cashback ganho: R$0,00%0A%0A`;
       msg+=`Tipo: Delivery%0A`;
-      msg+=`NOME: Cliente%0A`;
-      msg+=`Fone: (DDD) 90000-0000%0A`;
+      msg+=`NOME: ${nome}%0A`;
+      msg+=`Fone: ${telefone}%0A`;
       msg+=`Endereço: ${endereco}%0A%0A`;
       msg+=`------------------------------%0A`;
       msg+=itensTxt;
@@ -149,12 +174,16 @@
       msg+=`TOTAL: R$${total},00%0A%0A`;
       msg+=`Pagamento: ${pagamento}%0A`;
       if(pagamento==="Dinheiro" && troco){
-        msg+=`Troco para: ${troco},00%0A`;
+        msg+=`Troco para: R$${troco},00%0A`;
       }
+
+      // Link para repetir pedido
+      const linkRepetir = `https://wa.me/5574999041959?text=${encodeURIComponent("Repetir meu último pedido")}`;
+      msg+=`%0A👉 Acompanhe seu pedido ou repita pelo link: ${linkRepetir}`;
 
       const url=`https://wa.me/5574999041959?text=${msg}`;
       window.open(url,"_blank");
     }
   </script>
 </body>
- </html>
+                </html>
