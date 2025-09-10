@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+          <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -11,8 +11,12 @@
     header p { font-size:1.1em; color:#f1c40f; }
     section { padding:40px 20px; max-width:1000px; margin:auto; }
     h2 { text-align:center; color:#f1c40f; margin-bottom:20px; }
+    .tabs { display:flex; justify-content:center; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+    .tab { padding:10px 20px; background:#e63946; color:#fff; cursor:pointer; border-radius:6px; font-weight:bold; }
+    .tab.active { background:#f1c40f; color:#000; }
     .cardapio { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; }
-    .item-cardapio { background:#222; padding:20px; border-radius:12px; text-align:center; }
+    .item-cardapio { background:#222; padding:20px; border-radius:12px; text-align:center; display:none; }
+    .item-cardapio.show { display:block; }
     .item-cardapio h3 { margin:10px 0; }
     .item-cardapio select { margin:5px 0; padding:5px; border-radius:6px; border:none; }
     .quantidade-container { display:flex; justify-content:center; align-items:center; gap:5px; margin:5px 0; }
@@ -35,6 +39,12 @@
 
   <section id="cardapio">
     <h2>Nosso Cardápio</h2>
+    <div class="tabs">
+      <div class="tab active" data-tab="pizzas">Pizzas</div>
+      <div class="tab" data-tab="ref1l">Refrigerante 1L</div>
+      <div class="tab" data-tab="ref2l">Refrigerante 2L</div>
+      <div class="tab" data-tab="refLata">Refrigerante Lata</div>
+    </div>
     <div class="cardapio" id="lista-cardapio"></div>
   </section>
 
@@ -87,26 +97,27 @@
 
     const cardapio = [
       // 10 sabores de pizza
-      { nome: "Calabresa", desc: "Molho de tomate, queijo, calabresa e cebola.", tipo:"pizza" },
-      { nome: "Frango c/ Catupiry", desc: "Molho de tomate, queijo, frango desfiado e catupiry.", tipo:"pizza" },
-      { nome: "Portuguesa", desc: "Molho de tomate, queijo, presunto, ovo, cebola e azeitona.", tipo:"pizza" },
-      { nome: "Marguerita", desc: "Molho de tomate, queijo e manjericão.", tipo:"pizza" },
-      { nome: "Quatro Queijos", desc: "Molho de tomate, muçarela, provolone, gorgonzola e parmesão.", tipo:"pizza" },
-      { nome: "Atum", desc: "Molho de tomate, queijo e atum.", tipo:"pizza" },
-      { nome: "Napolitana", desc: "Molho de tomate, queijo, tomate e orégano.", tipo:"pizza" },
-      { nome: "Baiana", desc: "Molho de tomate, queijo, calabresa, ovo e cebola.", tipo:"pizza" },
-      { nome: "Vegetariana", desc: "Molho de tomate, queijo, tomate, milho, ervilha e cebola.", tipo:"pizza" },
-      { nome: "Escarola", desc: "Molho de tomate, queijo e escarola refogada.", tipo:"pizza" },
+      { nome: "Calabresa", desc: "Molho de tomate, queijo, calabresa e cebola.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Frango c/ Catupiry", desc: "Molho de tomate, queijo, frango desfiado e catupiry.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Portuguesa", desc: "Molho de tomate, queijo, presunto, ovo, cebola e azeitona.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Marguerita", desc: "Molho de tomate, queijo e manjericão.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Quatro Queijos", desc: "Molho de tomate, muçarela, provolone, gorgonzola e parmesão.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Atum", desc: "Molho de tomate, queijo e atum.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Napolitana", desc: "Molho de tomate, queijo, tomate e orégano.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Baiana", desc: "Molho de tomate, queijo, calabresa, ovo e cebola.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Vegetariana", desc: "Molho de tomate, queijo, tomate, milho, ervilha e cebola.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Escarola", desc: "Molho de tomate, queijo e escarola refogada.", tipo:"pizza", tab:"pizzas" },
       // Refrigerantes separados
-      { nome: "Refrigerante 1L", desc: "Refrigerante 1 litro", tipo:"bebida" },
-      { nome: "Refrigerante 2L", desc: "Refrigerante 2 litros", tipo:"bebida" },
-      { nome: "Refrigerante Lata", desc: "Refrigerante em lata", tipo:"bebida" }
+      { nome: "Refrigerante 1L", desc: "Refrigerante 1 litro", tipo:"bebida", tab:"ref1l" },
+      { nome: "Refrigerante 2L", desc: "Refrigerante 2 litros", tipo:"bebida", tab:"ref2l" },
+      { nome: "Refrigerante Lata", desc: "Refrigerante em lata", tipo:"bebida", tab:"refLata" }
     ];
 
     const lista = document.getElementById("lista-cardapio");
     cardapio.forEach(item=>{
       const card=document.createElement("div");
       card.className="item-cardapio";
+      card.dataset.tab=item.tab;
       const idNome=item.nome.replace(/\s/g,'');
       if(item.tipo==="pizza"){
         card.innerHTML=`
@@ -141,6 +152,24 @@
       }
       lista.appendChild(card);
     });
+
+    function mostrarAba(tab){
+      document.querySelectorAll(".item-cardapio").forEach(card=>{
+        if(card.dataset.tab===tab) card.classList.add("show");
+        else card.classList.remove("show");
+      });
+      document.querySelectorAll(".tab").forEach(t=>{
+        t.classList.remove("active");
+      });
+      document.querySelector(`.tab[data-tab="${tab}"]`).classList.add("active");
+    }
+
+    document.querySelectorAll(".tab").forEach(tab=>{
+      tab.addEventListener("click", ()=> mostrarAba(tab.dataset.tab));
+    });
+
+    // Mostrar aba inicial (Pizzas)
+    mostrarAba("pizzas");
 
     function alterarQuantidade(id,delta){
       const input=document.getElementById(`qtd-${id}`);
@@ -252,4 +281,4 @@
     }
   </script>
 </body>
-</html>
+  </html>
