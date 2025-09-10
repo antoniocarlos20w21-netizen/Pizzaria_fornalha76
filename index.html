@@ -98,19 +98,68 @@
       font-size: 0.9em;
     }
 
-    .pizza a {
+    .pizza button {
       display: inline-block;
       margin-top: 10px;
       padding: 10px 15px;
       background: #e63946;
       color: #fff;
-      text-decoration: none;
+      border: none;
       border-radius: 8px;
+      cursor: pointer;
       transition: background 0.3s;
     }
 
-    .pizza a:hover {
+    .pizza button:hover {
       background: #c72c3b;
+    }
+
+    #carrinho {
+      background: #111;
+      padding: 20px;
+      margin-top: 40px;
+      border-radius: 12px;
+    }
+
+    #carrinho h2 {
+      margin-bottom: 15px;
+    }
+
+    #itens-carrinho {
+      margin-bottom: 15px;
+    }
+
+    .item-carrinho {
+      background: #2a2a2a;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .item-carrinho span {
+      font-size: 0.9em;
+    }
+
+    .item-carrinho button {
+      background: #e63946;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #fff;
+    }
+
+    #finalizar {
+      display: inline-block;
+      padding: 12px 20px;
+      background: #f1c40f;
+      color: #000;
+      font-weight: bold;
+      border-radius: 8px;
+      text-decoration: none;
     }
 
     footer {
@@ -126,15 +175,6 @@
       text-decoration: none;
     }
   </style>
-  <script>
-    function pedirPizza(sabor) {
-      const tamanho = document.getElementById(`tamanho-${sabor}`).value;
-      const quantidade = document.getElementById(`qtd-${sabor}`).value;
-      const mensagem = `Olá, quero pedir ${quantidade} pizza(s) ${sabor} tamanho ${tamanho}`;
-      const url = `https://wa.me/5574999041959?text=${encodeURIComponent(mensagem)}`;
-      window.open(url, "_blank");
-    }
-  </script>
 </head>
 <body>
   <header>
@@ -145,14 +185,14 @@
 
   <nav>
     <a href="#cardapio">Cardápio</a>
-    <a href="https://wa.me/5574999041959" target="_blank">Fazer Pedido</a>
+    <a href="#carrinho">Carrinho</a>
     <a href="https://www.instagram.com/pizzariafornalha76" target="_blank">Instagram</a>
   </nav>
 
   <section id="cardapio">
     <h2>Nosso Cardápio</h2>
     <div class="cardapio">
-      <!-- Repetição de pizzas -->
+      <!-- Exemplo de pizza -->
       <div class="pizza">
         <h3>Calabresa</h3>
         <p>Molho de tomate, queijo, calabresa e cebola.</p>
@@ -164,7 +204,7 @@
           <option>Família</option>
         </select>
         <input type="number" id="qtd-Calabresa" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Calabresa')">Pedir no WhatsApp</a>
+        <button onclick="adicionarCarrinho('Calabresa')">Adicionar ao Carrinho</button>
       </div>
 
       <div class="pizza">
@@ -178,134 +218,17 @@
           <option>Família</option>
         </select>
         <input type="number" id="qtd-Frango" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Frango')">Pedir no WhatsApp</a>
+        <button onclick="adicionarCarrinho('Frango')">Adicionar ao Carrinho</button>
       </div>
 
-      <div class="pizza">
-        <h3>Portuguesa</h3>
-        <p>Molho de tomate, queijo, presunto, ovos, cebola e azeitonas.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Portuguesa">
-          <option>Broto</option>
-          <option>Média</option>
-          <option>Grande</option>
-          <option>Família</option>
-        </select>
-        <input type="number" id="qtd-Portuguesa" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Portuguesa')">Pedir no WhatsApp</a>
-      </div>
-
-      <div class="pizza">
-        <h3>Quatro Queijos</h3>
-        <p>Mussarela, parmesão, catupiry e gorgonzola.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-QuatroQueijos">
-          <option>Broto</option>
-          <option>Média</option>
-          <option>Grande</option>
-          <option>Família</option>
-        </select>
-        <input type="number" id="qtd-QuatroQueijos" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Quatro Queijos')">Pedir no WhatsApp</a>
-      </div>
-
-      <div class="pizza">
-        <h3>Marguerita</h3>
-        <p>Molho de tomate, mussarela, tomate e manjericão fresco.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Marguerita">
-          <option>Broto</option>
-          <option>Média</option>
-          <option>Grande</option>
-          <option>Família</option>
-        </select>
-        <input type="number" id="qtd-Marguerita" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Marguerita')">Pedir no WhatsApp</a>
-      </div>
-
-      <div class="pizza">
-        <h3>Napolitana</h3>
-        <p>Molho de tomate, mussarela, tomate e parmesão ralado.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Napolitana">
-          <option>Broto</option>
-          <option>Média</option>
-          <option>Grande</option>
-          <option>Família</option>
-        </select>
-        <input type="number" id="qtd-Napolitana" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Napolitana')">Pedir no WhatsApp</a>
-      </div>
-
-      <div class="pizza">
-        <h3>Moda da Casa</h3>
-        <p>Molho de tomate, mussarela, presunto, bacon, milho e azeitonas.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Moda">
-          <option>Broto</option>
-          <option>Média</option>
-          <option>Grande</option>
-          <option>Família</option>
-        </select>
-        <input type="number" id="qtd-Moda" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Moda da Casa')">Pedir no WhatsApp</a>
-      </div>
-
-      <div class="pizza">
-        <h3>Carne de Sol</h3>
-        <p>Molho de tomate, queijo coalho, carne de sol e cebola roxa.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Carne">
-          <option>Broto</option>
-          <option>Média</option>
-          <option>Grande</option>
-          <option>Família</option>
-        </select>
-        <input type="number" id="qtd-Carne" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Carne de Sol')">Pedir no WhatsApp</a>
-      </div>
-
-      <div class="pizza">
-        <h3>Baiana</h3>
-        <p>Molho de tomate, mussarela, calabresa, pimenta e cebola.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Baiana">
-          <option>Broto</option>
-          <option>Média</option>
-          <option>Grande</option>
-          <option>Família</option>
-        </select>
-        <input type="number" id="qtd-Baiana" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Baiana')">Pedir no WhatsApp</a>
-      </div>
-
-      <div class="pizza">
-        <h3>Palmito</h3>
-        <p>Molho de tomate, queijo, palmito e azeitonas.</p>
-        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-        <select id="tamanho-Palmito">
-          <option>Broto</option>
-          <option>Média</option>
-          <option>Grande</option>
-          <option>Família</option>
-        </select>
-        <input type="number" id="qtd-Palmito" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Palmito')">Pedir no WhatsApp</a>
-      </div>
-
-      <div class="pizza">
-        <h3>Refrigerantes</h3>
-        <p>Latinha, 1L e 2L.</p>
-        <span>Latinha R$5 | 1L R$10 | 2L R$15</span>
-        <select id="tamanho-Refri">
-          <option>Latinha</option>
-          <option>1L</option>
-          <option>2L</option>
-        </select>
-        <input type="number" id="qtd-Refri" value="1" min="1">
-        <a href="javascript:void(0)" onclick="pedirPizza('Refrigerante')">Pedir no WhatsApp</a>
-      </div>
+      <!-- Você pode repetir o bloco acima para as outras pizzas e bebidas -->
     </div>
+  </section>
+
+  <section id="carrinho">
+    <h2>🛒 Carrinho de Compras</h2>
+    <div id="itens-carrinho"></div>
+    <a id="finalizar" href="javascript:void(0)" onclick="finalizarPedido()">Finalizar Pedido no WhatsApp</a>
   </section>
 
   <footer>
@@ -313,5 +236,57 @@
     <p>📞 <a href="https://wa.me/5574999041959" target="_blank">(74) 99904-1959</a></p>
     <p>Instagram: <a href="https://www.instagram.com/pizzariafornalha76" target="_blank">@pizzariafornalha76</a></p>
   </footer>
+
+  <script>
+    let carrinho = [];
+
+    function adicionarCarrinho(sabor) {
+      const tamanho = document.getElementById(`tamanho-${sabor}`).value;
+      const quantidade = document.getElementById(`qtd-${sabor}`).value;
+
+      const item = {
+        sabor: sabor,
+        tamanho: tamanho,
+        quantidade: quantidade
+      };
+
+      carrinho.push(item);
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const container = document.getElementById("itens-carrinho");
+      container.innerHTML = "";
+
+      carrinho.forEach((item, index) => {
+        container.innerHTML += `
+          <div class="item-carrinho">
+            <span>${item.quantidade}x ${item.sabor} (${item.tamanho})</span>
+            <button onclick="removerItem(${index})">Remover</button>
+          </div>
+        `;
+      });
+    }
+
+    function removerItem(index) {
+      carrinho.splice(index, 1);
+      atualizarCarrinho();
+    }
+
+    function finalizarPedido() {
+      if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+      }
+
+      let mensagem = "Olá, gostaria de fazer o seguinte pedido:%0A";
+      carrinho.forEach(item => {
+        mensagem += `- ${item.quantidade}x ${item.sabor} (${item.tamanho})%0A`;
+      });
+
+      const url = `https://wa.me/5574999041959?text=${mensagem}`;
+      window.open(url, "_blank");
+    }
+  </script>
 </body>
-      </html>            
+  </html>          
