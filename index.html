@@ -98,13 +98,17 @@
       <!-- Aqui será inserido o cardápio via JS -->
     </div>
   </section>
-
-  <section id="carrinho">
-    <h2>🛒 Carrinho de Compras</h2>
-    <div id="itens-carrinho"></div>
-    <div id="total">Total: R$0</div>
-    <a id="finalizar" href="javascript:void(0)" onclick="finalizarPedido()">Finalizar Pedido no WhatsApp</a>
-  </section>
+<section id="carrinho">
+  <h2>🛒 Carrinho de Compras</h2>
+  <div id="itens-carrinho"></div>
+  <div id="total">Total: R$0</div>
+  <div style="margin-top:15px; text-align:center;">
+    <label for="endereco" style="display:block; margin-bottom:5px; color:#f1c40f;">📍 Endereço de Entrega:</label>
+    <input type="text" id="endereco" placeholder="Digite seu endereço" style="width:90%; padding:8px; border-radius:6px; border:none; text-align:left;">
+  </div>
+  <a id="finalizar" href="javascript:void(0)" onclick="finalizarPedido()">Finalizar Pedido no WhatsApp</a>
+</section>
+  
 
   <footer>
     <p>📍 Delivery - Uauá - BA</p>
