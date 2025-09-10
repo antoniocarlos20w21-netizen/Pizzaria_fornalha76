@@ -1,14 +1,12 @@
- <!DOCTYPE html>
+            <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pizzaria Fornalha 76</title>
-  <link rel="icon" type="image/png" href="logo.png">
   <style>
     body { margin:0; font-family:Arial,sans-serif; background:#1a1a1a; color:#f8f8f8; }
     header { background:#000; text-align:center; padding:20px; }
-    header img { max-width:150px; }
     header h1 { margin:10px 0 5px; font-size:2em; color:#e63946; }
     header p { font-size:1.1em; color:#f1c40f; }
     nav { background:#e63946; text-align:center; padding:10px; }
@@ -16,33 +14,20 @@
     section { padding:40px 20px; max-width:1000px; margin:auto; }
     h2 { text-align:center; color:#f1c40f; margin-bottom:20px; }
     .cardapio { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px; }
-    .item-cardapio {
-      background-size:cover; background-position:center; padding:20px; border-radius:12px; text-align:center;
-      box-shadow:0 4px 8px rgba(0,0,0,0.5); transition:.3s; color:#fff; position:relative; overflow:hidden;
-    }
-    .item-cardapio::before {
-      content:""; position:absolute; inset:0; background:rgba(0,0,0,0.6); border-radius:12px; z-index:0;
-    }
-    .item-cardapio * { position:relative; z-index:1; }
+    .item-cardapio { background:#222; padding:20px; border-radius:12px; text-align:center; }
     .item-cardapio h3 { margin:10px 0; }
-    .item-cardapio span { display:block; margin:10px 0; font-weight:bold; color:#f1c40f; }
     .quantidade-container { display:flex; justify-content:center; align-items:center; gap:5px; margin:5px 0; }
     .quantidade-container button { background:#e63946; border:none; color:#fff; padding:5px 10px; border-radius:6px; cursor:pointer; }
-    .quantidade-container input { width:50px; text-align:center; border:none; border-radius:6px; }
+    .quantidade-container input { width:50px; text-align:center; }
     .item-cardapio button.add { margin-top:10px; padding:10px 15px; background:#e63946; border:none; border-radius:8px; color:#fff; cursor:pointer; }
     #carrinho { background:#111; padding:20px; margin-top:40px; border-radius:12px; max-width:600px; margin:auto; }
     .item-carrinho { background:#2a2a2a; padding:10px; margin:5px 0; border-radius:8px; display:flex; justify-content:space-between; align-items:center; }
-    .item-carrinho button { background:#e63946; border:none; padding:5px 10px; border-radius:6px; color:#fff; margin-left:5px; }
-    #resumo { margin-top:15px; background:#222; padding:15px; border-radius:8px; }
-    #resumo p { margin:5px 0; }
+    .item-carrinho button { background:#e63946; border:none; padding:5px 10px; border-radius:6px; color:#fff; }
     #finalizar { display:block; padding:12px 20px; background:#f1c40f; color:#000; font-weight:bold; border-radius:8px; text-decoration:none; margin:20px auto 0; width:fit-content; }
-    footer { background:#000; text-align:center; padding:20px; font-size:.9em; color:#ccc; }
-    footer a { color:#e63946; text-decoration:none; }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="Logo Pizzaria Fornalha 76">
     <h1>Pizzaria Fornalha 76</h1>
     <p>Da chama ao sabor 🍕🔥</p>
   </header>
@@ -53,14 +38,8 @@
   </section>
 
   <section id="carrinho">
-    <h2>🛒 Carrinho de Compras</h2>
+    <h2>🛒 Carrinho</h2>
     <div id="itens-carrinho"></div>
-    <div id="resumo">
-      <p>Itens: R$<span id="valor-itens">0</span></p>
-      <p>Desconto: R$<span id="valor-desconto">0</span></p>
-      <p>Entrega: R$<span id="valor-entrega">5</span></p>
-      <p><b>Total: R$<span id="valor-total">0</span></b></p>
-    </div>
     <div style="margin-top:15px;">
       <label>📍 Endereço:</label>
       <input type="text" id="endereco" placeholder="Digite seu endereço" style="width:100%; padding:8px; border-radius:6px; border:none;">
@@ -80,53 +59,30 @@
     <a id="finalizar" href="javascript:void(0)" onclick="finalizarPedido()">Finalizar Pedido no WhatsApp</a>
   </section>
 
-  <footer>
-    <p>📍 Delivery - Uauá - BA</p>
-    <p>📞 <a href="https://wa.me/5574999041959" target="_blank">(74) 99904-1959</a></p>
-    <p>Instagram: <a href="https://www.instagram.com/pizzariafornalha76" target="_blank">@pizzariafornalha76</a></p>
-  </footer>
-
   <script>
-    const precos = { Broto:25, Média:35, Grande:45, Família:55, "Refrigerante 1L":10, "Refrigerante 2L":15, "Refrigerante Lata":5 };
+    const precos = { "Pizza Média":35, "Pizza Grande":45, "Refrigerante 2L":15 };
     let carrinho = [];
-    const taxaEntrega = 5;
+    const taxaEntrega = 3; // igual na imagem
 
     const cardapio = [
-      { nome:"Calabresa", desc:"Molho, queijo, calabresa e cebola.", tipo:"pizza" },
-      { nome:"Frango c/ Catupiry", desc:"Molho, queijo, frango desfiado e catupiry.", tipo:"pizza" },
-      { nome:"Refrigerante 2L", desc:"Bebida gelada", tipo:"bebida" }
+      { nome:"Pizza Média", preco:35 },
+      { nome:"Pizza Grande", preco:45 },
+      { nome:"Refrigerante 2L", preco:15 }
     ];
 
     const lista = document.getElementById("lista-cardapio");
     cardapio.forEach(item=>{
       const card=document.createElement("div");
       card.className="item-cardapio";
-      if(item.tipo==="pizza"){
-        card.innerHTML=`
-          <h3>${item.nome}</h3><p>${item.desc}</p>
-          <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-          <select id="tamanho-${item.nome.replace(/\s/g,'')}">
-            <option>Broto</option><option>Média</option><option>Grande</option><option>Família</option>
-          </select>
-          <div class="quantidade-container">
-            <button onclick="alterarQuantidade('${item.nome}',-1)">-</button>
-            <input type="number" id="qtd-${item.nome}" value="1" min="1">
-            <button onclick="alterarQuantidade('${item.nome}',1)">+</button>
-          </div>
-          <button class="add" onclick="adicionarCarrinho('${item.nome}')">Adicionar</button>
-        `;
-      } else {
-        card.innerHTML=`
-          <h3>${item.nome}</h3><p>${item.desc}</p>
-          <span>R$${precos[item.nome]}</span>
-          <div class="quantidade-container">
-            <button onclick="alterarQuantidade('${item.nome}',-1)">-</button>
-            <input type="number" id="qtd-${item.nome}" value="1" min="1">
-            <button onclick="alterarQuantidade('${item.nome}',1)">+</button>
-          </div>
-          <button class="add" onclick="adicionarCarrinho('${item.nome}')">Adicionar</button>
-        `;
-      }
+      card.innerHTML=`
+        <h3>${item.nome}</h3><span>R$${item.preco}</span>
+        <div class="quantidade-container">
+          <button onclick="alterarQuantidade('${item.nome}',-1)">-</button>
+          <input type="number" id="qtd-${item.nome}" value="1" min="1">
+          <button onclick="alterarQuantidade('${item.nome}',1)">+</button>
+        </div>
+        <button class="add" onclick="adicionarCarrinho('${item.nome}')">Adicionar</button>
+      `;
       lista.appendChild(card);
     });
 
@@ -138,54 +94,67 @@
     }
 
     function adicionarCarrinho(nome){
-      const tamanhoSelect=document.getElementById(`tamanho-${nome.replace(/\s/g,'')}`);
-      const tamanho=tamanhoSelect?tamanhoSelect.value:"";
       const quantidade=parseInt(document.getElementById(`qtd-${nome}`).value);
-      carrinho.push({nome,tamanho,quantidade});
+      carrinho.push({nome, quantidade, preco:precos[nome]});
       atualizarCarrinho();
     }
 
     function atualizarCarrinho(){
       const itens=document.getElementById("itens-carrinho");
       itens.innerHTML="";
-      let subtotal=0;
       carrinho.forEach((item,i)=>{
-        const precoUnit=item.tamanho?precos[item.tamanho]:precos[item.nome];
-        const valor=precoUnit*item.quantidade;
-        subtotal+=valor;
+        const valor=item.preco*item.quantidade;
         itens.innerHTML+=`
           <div class="item-carrinho">
-            <span>${item.quantidade}x ${item.nome} ${item.tamanho?`(${item.tamanho})`:""} - R$${valor}</span>
+            <span>${item.quantidade}x ${item.nome} - R$${valor}</span>
             <button onclick="removerItem(${i})">Remover</button>
           </div>
         `;
       });
-      document.getElementById("valor-itens").innerText=subtotal;
-      document.getElementById("valor-desconto").innerText=0;
-      document.getElementById("valor-total").innerText=subtotal+taxaEntrega;
     }
 
     function removerItem(i){ carrinho.splice(i,1); atualizarCarrinho(); }
 
     function finalizarPedido(){
       if(carrinho.length===0){ alert("Seu carrinho está vazio!"); return; }
+
       const endereco=document.getElementById("endereco").value;
       const pagamento=document.getElementById("pagamento").value;
       const troco=document.getElementById("troco").value;
-      let itensTxt="";
+
       let subtotal=0;
+      let itensTxt="";
       carrinho.forEach(item=>{
-        const precoUnit=item.tamanho?precos[item.tamanho]:precos[item.nome];
-        const valor=precoUnit*item.quantidade;
+        const valor=item.preco*item.quantidade;
         subtotal+=valor;
-        itensTxt+=`${item.quantidade}x ${item.nome}${item.tamanho?` (${item.tamanho})`:""} - R$${valor}%0A`;
+        itensTxt+=`${item.quantidade}x ${item.nome} R$${valor},00%0A`;
       });
+
       const total=subtotal+taxaEntrega;
-      let msg=`Pedido Pizzaria Fornalha 76 🍕%0A%0A${itensTxt}%0AItens: R$${subtotal}%0ADesconto: R$0,00%0AEntrega: R$${taxaEntrega}%0ATOTAL: R$${total}%0A%0AEndereço: ${endereco}%0APagamento: ${pagamento}`;
-      if(pagamento==="Dinheiro" && troco){ msg+=`%0ATroco para: R$${troco}`; }
+
+      // === Formato igual à imagem ===
+      let msg=`ORDER/PIZZARIAFORNALHA76%0A`;
+      msg+=`Pedido Pizzaria Fornalha 76:%0A`;
+      msg+=`Cashback ganho: R$0,00%0A%0A`;
+      msg+=`Tipo: Delivery%0A`;
+      msg+=`NOME: Cliente%0A`;
+      msg+=`Fone: (DDD) 90000-0000%0A`;
+      msg+=`Endereço: ${endereco}%0A%0A`;
+      msg+=`------------------------------%0A`;
+      msg+=itensTxt;
+      msg+=`------------------------------%0A`;
+      msg+=`Itens: R$${subtotal},00%0A`;
+      msg+=`Desconto: R$0,00%0A`;
+      msg+=`Entrega: R$${taxaEntrega},00%0A`;
+      msg+=`TOTAL: R$${total},00%0A%0A`;
+      msg+=`Pagamento: ${pagamento}%0A`;
+      if(pagamento==="Dinheiro" && troco){
+        msg+=`Troco para: ${troco},00%0A`;
+      }
+
       const url=`https://wa.me/5574999041959?text=${msg}`;
       window.open(url,"_blank");
     }
   </script>
 </body>
-</html>                    
+ </html>
