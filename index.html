@@ -1,99 +1,317 @@
-      <!DOCTYPE html>
-<html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pizzaria Fornalha 76</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo.png">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1a1a1a;
+      color: #f8f8f8;
+    }
+
+    header {
+      background: #000;
+      text-align: center;
+      padding: 20px;
+    }
+
+    header img {
+      max-width: 150px;
+    }
+
+    header h1 {
+      margin: 10px 0 5px;
+      font-size: 2em;
+      color: #e63946;
+    }
+
+    header p {
+      font-size: 1.1em;
+      color: #f1c40f;
+    }
+
+    nav {
+      background: #e63946;
+      text-align: center;
+      padding: 10px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #f1c40f;
+      margin-bottom: 20px;
+    }
+
+    .cardapio {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .pizza {
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+    }
+
+    .pizza h3 {
+      margin: 10px 0;
+      color: #fff;
+    }
+
+    .pizza p {
+      font-size: 0.9em;
+      color: #ccc;
+    }
+
+    .pizza span {
+      display: block;
+      margin: 10px 0;
+      font-weight: bold;
+      color: #f1c40f;
+    }
+
+    .pizza select, .pizza input {
+      margin: 5px 0;
+      padding: 5px;
+      border-radius: 6px;
+      border: none;
+      font-size: 0.9em;
+    }
+
+    .pizza a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #e63946;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    .pizza a:hover {
+      background: #c72c3b;
+    }
+
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #ccc;
+    }
+
+    footer a {
+      color: #e63946;
+      text-decoration: none;
+    }
+  </style>
+  <script>
+    function pedirPizza(sabor) {
+      const tamanho = document.getElementById(`tamanho-${sabor}`).value;
+      const quantidade = document.getElementById(`qtd-${sabor}`).value;
+      const mensagem = `Olá, quero pedir ${quantidade} pizza(s) ${sabor} tamanho ${tamanho}`;
+      const url = `https://wa.me/5574999041959?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, "_blank");
+    }
+  </script>
 </head>
 <body>
-
   <header>
-    <div class="container">
-      <h1>Fornalha 76</h1>
-      <nav>
-        <ul>
-          <li><a href="#menu">Cardápio</a></li>
-          <li><a href="#sobre">Sobre</a></li>
-          <li><a href="#contato">Contato</a></li>
-          <li><a href="#pedido" class="btn">Fazer Pedido</a></li>
-        </ul>
-      </nav>
-    </div>
+    <img src="logo.png" alt="Logo Pizzaria Fornalha 76">
+    <h1>Pizzaria Fornalha 76</h1>
+    <p>Da chama ao sabor 🍕🔥</p>
   </header>
 
-  <section class="hero">
-    <div class="container">
-      <h2>A pizza que vai direto ao coração ❤️</h2>
-      <p>Receitas artesanais feitas no forno a gás. Entregamos com rapidez e sabor garantido!</p>
-      <a href="#menu" class="btn">Ver Cardápio</a>
-    </div>
-  </section>
+  <nav>
+    <a href="#cardapio">Cardápio</a>
+    <a href="https://wa.me/5574999041959" target="_blank">Fazer Pedido</a>
+    <a href="https://www.instagram.com/pizzariafornalha76" target="_blank">Instagram</a>
+  </nav>
 
-  <section id="menu" class="menu">
-    <div class="container">
-      <h2>Nosso Cardápio</h2>
-      <div class="cardapio-grid">
-        <div class="pizza-item">
-          <h3>Margherita</h3>
-          <p>Molho de tomate, muçarela, manjericão fresco</p>
-          <span>Broto R$ 24 | Média R$ 35 | Grande R$ 45 | Família R$ 55</span>
-        </div>
-        <div class="pizza-item">
-          <h3>Calabresa</h3>
-          <p>Muçarela, calabresa, cebola, orégano</p>
-          <span>Broto R$ 24 | Média R$ 35 | Grande R$ 45 | Família R$ 55</span>
-        </div>
-        <div class="pizza-item">
-          <h3>Quatro Queijos</h3>
-          <p>Muçarela, parmesão, gorgonzola, catupiry</p>
-          <span>Broto R$ 24 | Média R$ 35 | Grande R$ 45 | Família R$ 55</span>
-        </div>
-        <div class="pizza-item">
-          <h3>Portuguesa</h3>
-          <p>Presunto, ovo, cebola, azeitona, ervilha, muçarela</p>
-          <span>Broto R$ 24 | Média R$ 35 | Grande R$ 45 | Família R$ 55</span>
-        </div>
+  <section id="cardapio">
+    <h2>Nosso Cardápio</h2>
+    <div class="cardapio">
+      <!-- Repetição de pizzas -->
+      <div class="pizza">
+        <h3>Calabresa</h3>
+        <p>Molho de tomate, queijo, calabresa e cebola.</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-Calabresa">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <input type="number" id="qtd-Calabresa" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Calabresa')">Pedir no WhatsApp</a>
+      </div>
+
+      <div class="pizza">
+        <h3>Frango c/ Catupiry</h3>
+        <p>Molho de tomate, queijo, frango desfiado e catupiry.</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-Frango">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <input type="number" id="qtd-Frango" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Frango')">Pedir no WhatsApp</a>
+      </div>
+
+      <div class="pizza">
+        <h3>Portuguesa</h3>
+        <p>Molho de tomate, queijo, presunto, ovos, cebola e azeitonas.</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-Portuguesa">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <input type="number" id="qtd-Portuguesa" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Portuguesa')">Pedir no WhatsApp</a>
+      </div>
+
+      <div class="pizza">
+        <h3>Quatro Queijos</h3>
+        <p>Mussarela, parmesão, catupiry e gorgonzola.</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-QuatroQueijos">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <input type="number" id="qtd-QuatroQueijos" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Quatro Queijos')">Pedir no WhatsApp</a>
+      </div>
+
+      <div class="pizza">
+        <h3>Marguerita</h3>
+        <p>Molho de tomate, mussarela, tomate e manjericão fresco.</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-Marguerita">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <input type="number" id="qtd-Marguerita" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Marguerita')">Pedir no WhatsApp</a>
+      </div>
+
+      <div class="pizza">
+        <h3>Napolitana</h3>
+        <p>Molho de tomate, mussarela, tomate e parmesão ralado.</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-Napolitana">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <input type="number" id="qtd-Napolitana" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Napolitana')">Pedir no WhatsApp</a>
+      </div>
+
+      <div class="pizza">
+        <h3>Moda da Casa</h3>
+        <p>Molho de tomate, mussarela, presunto, bacon, milho e azeitonas.</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-Moda">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <input type="number" id="qtd-Moda" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Moda da Casa')">Pedir no WhatsApp</a>
+      </div>
+
+      <div class="pizza">
+        <h3>Carne de Sol</h3>
+        <p>Molho de tomate, queijo coalho, carne de sol e cebola roxa.</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-Carne">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <input type="number" id="qtd-Carne" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Carne de Sol')">Pedir no WhatsApp</a>
+      </div>
+
+      <div class="pizza">
+        <h3>Baiana</h3>
+        <p>Molho de tomate, mussarela, calabresa, pimenta e cebola.</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-Baiana">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <input type="number" id="qtd-Baiana" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Baiana')">Pedir no WhatsApp</a>
+      </div>
+
+      <div class="pizza">
+        <h3>Palmito</h3>
+        <p>Molho de tomate, queijo, palmito e azeitonas.</p>
+        <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
+        <select id="tamanho-Palmito">
+          <option>Broto</option>
+          <option>Média</option>
+          <option>Grande</option>
+          <option>Família</option>
+        </select>
+        <input type="number" id="qtd-Palmito" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Palmito')">Pedir no WhatsApp</a>
+      </div>
+
+      <div class="pizza">
+        <h3>Refrigerantes</h3>
+        <p>Latinha, 1L e 2L.</p>
+        <span>Latinha R$5 | 1L R$10 | 2L R$15</span>
+        <select id="tamanho-Refri">
+          <option>Latinha</option>
+          <option>1L</option>
+          <option>2L</option>
+        </select>
+        <input type="number" id="qtd-Refri" value="1" min="1">
+        <a href="javascript:void(0)" onclick="pedirPizza('Refrigerante')">Pedir no WhatsApp</a>
       </div>
     </div>
   </section>
 
-  <section id="sobre" class="sobre">
-    <div class="container">
-      <h2>Sobre a Fornalha 76</h2>
-      <p>
-        Fundada em 2022, a Fornalha 76 nasceu com a missão de entregar pizzas de alta qualidade,
-        feitas com ingredientes frescos e assadas em forno a gás. Localizada no coração da cidade,
-        somos apaixonados por sabor, tradição e atendimento acolhedor.
-      </p>
-    </div>
-  </section>
-
-  <section id="contato" class="contato">
-    <div class="container">
-      <h2>Contato</h2>
-      <p>📍 Rua das Pizzas, 76 – Centro</p>
-      <p>📞 (74) 99904-1959</p>
-      <p>📱 <a href="https://wa.me/5574999041959" target="_blank">Fale conosco pelo WhatsApp</a></p>
-    </div>
-  </section>
-
-  <section id="pedido" class="pedido">
-    <div class="container">
-      <h2>Peça Agora</h2>
-      <p>Clique abaixo para fazer seu pedido direto pelo WhatsApp!</p>
-      <a class="btn btn-pedido" href="https://wa.me/5574999041959" target="_blank">Fazer Pedido</a>
-    </div>
-  </section>
-
   <footer>
-    <div class="container">
-      <p>&copy; 2025 Pizzaria Fornalha 76. Todos os direitos reservados.</p>
-    </div>
+    <p>📍 Delivery - Uauá - BA</p>
+    <p>📞 <a href="https://wa.me/5574999041959" target="_blank">(74) 99904-1959</a></p>
+    <p>Instagram: <a href="https://www.instagram.com/pizzariafornalha76" target="_blank">@pizzariafornalha76</a></p>
   </footer>
-
 </body>
-  </html>
+      </html>            
