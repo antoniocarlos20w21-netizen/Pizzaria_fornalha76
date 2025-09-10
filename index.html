@@ -25,44 +25,6 @@
     #finalizar { display:block; padding:12px 20px; background:#f1c40f; color:#000; font-weight:bold; border-radius:8px; text-decoration:none; margin:20px auto 0; width:fit-content; }
     input, select { width:100%; padding:8px; border-radius:6px; border:none; margin-top:5px; }
     label { display:block; margin-top:10px; color:#f1c40f; text-align:left; }
-
-    /* PIX Container */
-    #pix-container {
-      background:#222;
-      padding:20px;
-      margin-top:15px;
-      border-radius:12px;
-      text-align:center;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:15px;
-    }
-    #pix-container img {
-      max-width:180px;
-      width:100%;
-      height:auto;
-      border:2px solid #f1c40f;
-      border-radius:12px;
-    }
-    #copiar-pix {
-      padding:10px 16px;
-      background:#e63946;
-      border:none;
-      border-radius:8px;
-      color:#fff;
-      font-weight:bold;
-      cursor:pointer;
-      transition: background 0.3s;
-    }
-    #copiar-pix:hover { background:#d62839; }
-
-    /* Mobile */
-    @media (max-width: 480px) {
-      #pix-container { padding:15px; }
-      #pix-container img { max-width:150px; }
-      #copiar-pix { width:100%; padding:12px; font-size:1em; }
-    }
   </style>
 </head>
 <body>
@@ -124,18 +86,21 @@
     const pixChave = "pizzariafornalha76@pix.com";
 
     const cardapio = [
+      // 10 sabores de pizza
       { nome: "Calabresa", desc: "Molho de tomate, queijo, calabresa e cebola.", tipo:"pizza" },
       { nome: "Frango c/ Catupiry", desc: "Molho de tomate, queijo, frango desfiado e catupiry.", tipo:"pizza" },
       { nome: "Portuguesa", desc: "Molho de tomate, queijo, presunto, ovo, cebola e azeitona.", tipo:"pizza" },
-      { nome: "Marguerita", desc: "Molho de tomate, queijo, tomate e manjericão.", tipo:"pizza" },
-      { nome: "Quatro Queijos", desc: "Molho de tomate, mussarela, provolone, gorgonzola e parmesão.", tipo:"pizza" },
-      { nome: "Atum", desc: "Molho de tomate, queijo, atum e cebola.", tipo:"pizza" },
-      { nome: "Napolitana", desc: "Molho de tomate, queijo, presunto, tomate e orégano.", tipo:"pizza" },
-      { nome: "Baiana", desc: "Molho de tomate, queijo, calabresa, pimenta, ovo e cebola.", tipo:"pizza" },
-      { nome: "Vegetariana", desc: "Molho de tomate, queijo, tomate, pimentão, cebola, azeitona e milho.", tipo:"pizza" },
+      { nome: "Marguerita", desc: "Molho de tomate, queijo e manjericão.", tipo:"pizza" },
+      { nome: "Quatro Queijos", desc: "Molho de tomate, muçarela, provolone, gorgonzola e parmesão.", tipo:"pizza" },
+      { nome: "Atum", desc: "Molho de tomate, queijo e atum.", tipo:"pizza" },
+      { nome: "Napolitana", desc: "Molho de tomate, queijo, tomate e orégano.", tipo:"pizza" },
+      { nome: "Baiana", desc: "Molho de tomate, queijo, calabresa, ovo e cebola.", tipo:"pizza" },
+      { nome: "Vegetariana", desc: "Molho de tomate, queijo, tomate, milho, ervilha e cebola.", tipo:"pizza" },
+      { nome: "Escarola", desc: "Molho de tomate, queijo e escarola refogada.", tipo:"pizza" },
+      // Refrigerantes separados
       { nome: "Refrigerante 1L", desc: "Refrigerante 1 litro", tipo:"bebida" },
       { nome: "Refrigerante 2L", desc: "Refrigerante 2 litros", tipo:"bebida" },
-      { nome: "Refrigerante Lata", desc: "Refrigerante em lata", tipo:"bebida" },
+      { nome: "Refrigerante Lata", desc: "Refrigerante em lata", tipo:"bebida" }
     ];
 
     const lista = document.getElementById("lista-cardapio");
