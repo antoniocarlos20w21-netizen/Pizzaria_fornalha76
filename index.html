@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -79,7 +79,10 @@
       <p>Escaneie o QR Code ou use a chave Pix abaixo:</p>
       <p><b id="pix-chave">08757823537</b></p>
       <img id="pix-qr" src="" alt="QR Code Pix">
-      <button id="copiar-pix">Copiar chave Pix</button>
+      <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">
+        <button id="copiar-pix" style="flex:1; padding:10px; background:#e63946; color:#fff; border:none; border-radius:8px; cursor:pointer;">Copiar chave Pix</button>
+        <button id="confirmar-pix" style="flex:1; padding:10px; background:#f1c40f; color:#000; border:none; border-radius:8px; cursor:pointer;">Já paguei via Pix ✅</button>
+      </div>
     </div>
 
     <a id="finalizar" href="javascript:void(0)" onclick="finalizarPedido()">Finalizar Pedido no WhatsApp</a>
@@ -94,6 +97,7 @@
     let carrinho = [];
     const taxaEntrega = 3;
     const pixChave = "08757823537"; // ✅ sua chave Pix real
+    let pixConfirmado = false; // Controle do Pix
 
     const cardapio = [
       { nome: "Calabresa", desc: "Molho de tomate, queijo, calabresa e cebola.", tipo:"pizza", tab:"pizzas" },
@@ -224,7 +228,6 @@
       }
     });
 
-    // ✅ Agora o QR Code mostra só a chave Pix crua
     function gerarQRCodePix(){
       const qrUrl=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pixChave)}`;
       document.getElementById("pix-qr").src=qrUrl;
@@ -238,6 +241,11 @@
       });
     });
 
+    document.getElementById("confirmar-pix").addEventListener("click", function() {
+      pixConfirmado = true;
+      alert("Pagamento via Pix confirmado! Você pode finalizar o pedido.");
+    });
+
     function finalizarPedido(){
       if(carrinho.length===0){ alert("Seu carrinho está vazio!"); return; }
       const nome=document.getElementById("nome").value.trim();
@@ -246,7 +254,13 @@
       const pagamento=document.getElementById("pagamento").value;
       const troco=document.getElementById("troco").value;
       if(!nome||!telefone||!endereco||!pagamento){ alert("Preencha todos os campos!"); return; }
-      
+
+      if(pagamento==="Pix" && !pixConfirmado){
+        if(!confirm("Você selecionou Pix, mas ainda não confirmou o pagamento. Deseja continuar?")){
+          return;
+        }
+      }
+
       let subtotal=0;
       let itensTxt="";
       carrinho.forEach(item=>{
@@ -269,7 +283,10 @@
       msg+=`TOTAL: R$${total},00%0A%0A`;
       msg+=`Pagamento: ${pagamento}%0A`;
       if(pagamento==="Dinheiro"&&troco){ msg+=`Troco para: R$${troco},00%0A`; }
-      if(pagamento==="Pix"){ msg+=`Chave Pix: ${pixChave}%0A`; }
+      if(pagamento==="Pix"){ 
+        msg+=`Chave Pix: ${pixChave}%0A`; 
+        if(pixConfirmado) msg+=`✅ Pagamento Pix confirmado!%0A`;
+      }
 
       const url=`https://wa.me/5574999041959?text=${msg}`;
       window.open(url,"_blank");
