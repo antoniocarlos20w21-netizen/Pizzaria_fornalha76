@@ -19,7 +19,7 @@
     .item-cardapio { background:#222; padding:20px; border-radius:12px; text-align:center; display:none; }
     .item-cardapio.show { display:block; }
     .item-cardapio h3 { margin:10px 0; }
-    .item-cardapio p { font-size:0.9em; color:#ccc; margin:5px 0 10px; }
+    .item-cardapio p { font-size:0.9em; color:#f1c40f; margin:5px 0 10px; text-align:left; }
     .item-cardapio select { margin:5px 0; padding:5px; border-radius:6px; border:none; }
     .quantidade-container { display:flex; justify-content:center; align-items:center; gap:5px; margin:5px 0; }
     .quantidade-container button { background:#e63946; border:none; color:#fff; padding:5px 10px; border-radius:6px; cursor:pointer; }
@@ -35,7 +35,7 @@
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="Logo Pizzaria Fornalha 76">
+    <img src="https://i.imgur.com/SEu5ZfQ.png" alt="Logo Pizzaria Fornalha 76">
     <h1>Pizzaria Fornalha 76</h1>
     <p>Da chama ao sabor 🍕🔥</p>
   </header>
@@ -118,7 +118,7 @@
       card.dataset.tab=item.tab;
       card.innerHTML=`
         <h3>${item.nome}</h3>
-        <p>${item.desc}</p>
+        <p><b>Ingredientes:</b> ${item.desc}</p>
         ${item.tipo==="pizza"?`
           <label>Tamanho:</label>
           <select id="tamanho-${item.nome}">
