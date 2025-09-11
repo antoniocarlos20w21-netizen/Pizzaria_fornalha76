@@ -103,8 +103,10 @@
       { nome: "Calabresa", desc: "Molho de tomate, queijo, calabresa e cebola.", tipo:"pizza", tab:"pizzas" },
       { nome: "Frango c/ Catupiry", desc: "Molho de tomate, queijo, frango desfiado e catupiry.", tipo:"pizza", tab:"pizzas" },
       { nome: "Portuguesa", desc: "Molho de tomate, queijo, presunto, ovo, cebola e azeitona.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Carne Seca", desc: "Molho de tomate, queijo e carne seca desfiada.", tipo:"pizza", tab:"pizzas" },
+      { nome: "Frango c/ Cheddar", desc: "Molho de tomate, queijo, frango desfiado e cheddar.", tipo:"pizza", tab:"pizzas" },
       { nome: "Marguerita", desc: "Molho de tomate, queijo e manjericão.", tipo:"pizza", tab:"pizzas" },
-      { nome: "Quatro Queijos", desc: "Molho de tomate, muçarela, provolone, gorgonzola e parmesão.", tipo:"pizza", tab:"pizzas" },
+      { nome: "4 Queijos", desc: "Molho de tomate, muçarela, provolone, gorgonzola e parmesão.", tipo:"pizza", tab:"pizzas" },
       { nome: "Atum", desc: "Molho de tomate, queijo e atum.", tipo:"pizza", tab:"pizzas" },
       { nome: "Napolitana", desc: "Molho de tomate, queijo, tomate e orégano.", tipo:"pizza", tab:"pizzas" },
       { nome: "Baiana", desc: "Molho de tomate, queijo, calabresa, ovo e cebola.", tipo:"pizza", tab:"pizzas" },
@@ -144,13 +146,6 @@
           <h3>${item.nome}</h3>
           <p>${item.desc}</p>
           <span>R$${precos[item.nome]},00</span>
-          <label>Escolha o sabor do refrigerante:</label>
-          <select id="sabor-${idNome}">
-            <option value="">Selecione...</option>
-            <option value="Coca-Cola">Coca-Cola</option>
-            <option value="Guaraná">Guaraná</option>
-            <option value="Fanta">Fanta</option>
-          </select>
           <div class="quantidade-container">
             <button onclick="alterarQuantidade('${idNome}',-1)">-</button>
             <input type="number" id="qtd-${idNome}" value="1" min="1">
@@ -190,18 +185,13 @@
       const qtd=parseInt(document.getElementById(`qtd-${nome}`).value);
       let tamanho="";
       let preco=0;
-      let sabor="";
-
       if(tipo==="pizza"){
         tamanho=document.getElementById(`tamanho-${nome}`).value;
-        preco = precos[tamanho] || 0;
+        preco=precos[tamanho] || 0;
       } else {
-        preco = precos[nome.replace(/([A-Z])/g,' $1').trim()] || 0;
-        sabor=document.getElementById(`sabor-${nome}`)?.value || "";
-        if(!sabor){ alert("Escolha o sabor do refrigerante!"); return; }
+        preco=precos[nome.replace(/([A-Z])/g,' $1').trim()] || 0;
       }
-
-      carrinho.push({nome,tamanho,sabor,quantidade:qtd,preco});
+      carrinho.push({nome,tamanho,quantidade:qtd,preco});
       atualizarCarrinho();
     }
 
@@ -210,11 +200,11 @@
       container.innerHTML="";
       let total=0;
       carrinho.forEach((item,i)=>{
-        const subtotal = Number(item.preco) * Number(item.quantidade);
-        total += subtotal;
+        const subtotal=item.preco*item.quantidade;
+        total+=subtotal;
         container.innerHTML+=`
           <div class="item-carrinho">
-            <span>${item.quantidade}x ${item.nome} ${item.tamanho? "(" + item.tamanho + ")" : ""} ${item.sabor? "(" + item.sabor + ")" : ""} - R$${subtotal},00</span>
+            <span>${item.quantidade}x ${item.nome} ${item.tamanho? "(" + item.tamanho + ")" : ""} - R$${subtotal},00</span>
             <button onclick="removerItem(${i})">Remover</button>
           </div>
         `;
@@ -276,9 +266,9 @@
       let subtotal=0;
       let itensTxt="";
       carrinho.forEach(item=>{
-        const valor=Number(item.preco)*Number(item.quantidade);
+        const valor=item.preco*item.quantidade;
         subtotal+=valor;
-        itensTxt+=`${item.quantidade}x ${item.nome} ${item.tamanho? "(" + item.tamanho + ")" : ""} ${item.sabor? "(" + item.sabor + ")" : ""} - R$${valor},00%0A`;
+        itensTxt+=`${item.quantidade}x ${item.nome} ${item.tamanho? "(" + item.tamanho + ")" : ""} - R$${valor},00%0A`;
       });
       const total=subtotal+taxaEntrega;
       const horario=new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
