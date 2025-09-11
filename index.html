@@ -97,7 +97,6 @@
     let carrinho = [];
     const taxaEntrega = 3;
     const pixChave = "08757823537";
-    let pixConfirmado = false;
 
     const cardapio = [
       { nome: "Calabresa", desc: "Molho de tomate, queijo, calabresa e cebola.", tipo:"pizza", tab:"pizzas" },
@@ -122,76 +121,61 @@
       const card=document.createElement("div");
       card.className="item-cardapio";
       card.dataset.tab=item.tab;
-      const idNome=item.nome.replace(/\s/g,'');
+
+      let selectTamanho="", selectSabor="";
       if(item.tipo==="pizza"){
-        card.innerHTML=`
-          <h3>${item.nome}</h3>
-          <p>${item.desc}</p>
-          <span>Broto R$25 | Média R$35 | Grande R$45 | Família R$55</span>
-          <select id="tamanho-${idNome}">
-            <option>Broto</option>
-            <option>Média</option>
-            <option>Grande</option>
-            <option>Família</option>
-          </select>
-          <div class="quantidade-container">
-            <button onclick="alterarQuantidade('${idNome}',-1)">-</button>
-            <input type="number" id="qtd-${idNome}" value="1" min="1">
-            <button onclick="alterarQuantidade('${idNome}',1)">+</button>
-          </div>
-          <button class="add" onclick="adicionarCarrinho('${idNome}','pizza')">Adicionar ao Carrinho</button>
-        `;
+        selectTamanho=`<label>Tamanho:</label>
+          <select id="tamanho-${item.nome}">
+            <option value="Broto">Broto - R$25</option>
+            <option value="Média">Média - R$35</option>
+            <option value="Grande">Grande - R$45</option>
+            <option value="Família">Família - R$55</option>
+          </select>`;
       } else {
-        card.innerHTML=`
-          <h3>${item.nome}</h3>
-          <p>${item.desc}</p>
-          <span>R$${precos[item.nome]},00</span>
-          <div class="quantidade-container">
-            <button onclick="alterarQuantidade('${idNome}',-1)">-</button>
-            <input type="number" id="qtd-${idNome}" value="1" min="1">
-            <button onclick="alterarQuantidade('${idNome}',1)">+</button>
-          </div>
-          <button class="add" onclick="adicionarCarrinho('${idNome}','bebida')">Adicionar ao Carrinho</button>
-        `;
+        selectSabor=`<label>Sabor:</label>
+          <select id="sabor-${item.nome}">
+            <option value="">Selecione</option>
+            <option value="Coca-Cola">Coca-Cola</option>
+            <option value="Guaraná">Guaraná</option>
+            <option value="Fanta">Fanta</option>
+          </select>`;
       }
+
+      card.innerHTML=`
+        <h3>${item.nome}</h3>
+        <p>${item.desc}</p>
+        ${selectTamanho}
+        ${selectSabor}
+        <div class="quantidade-container">
+          <button onclick="alterarQtd('${item.nome}',-1)">-</button>
+          <input type="number" id="qtd-${item.nome}" value="1" min="1">
+          <button onclick="alterarQtd('${item.nome}',1)">+</button>
+        </div>
+        <button class="add" onclick="adicionarCarrinho('${item.nome}','${item.tipo}')">Adicionar</button>
+      `;
       lista.appendChild(card);
     });
 
-    function mostrarAba(tab){
-      document.querySelectorAll(".item-cardapio").forEach(card=>{
-        if(card.dataset.tab===tab) card.classList.add("show");
-        else card.classList.remove("show");
-      });
-      document.querySelectorAll(".tab").forEach(t=>{
-        t.classList.remove("active");
-      });
-      document.querySelector(`.tab[data-tab="${tab}"]`).classList.add("active");
-    }
-
-    document.querySelectorAll(".tab").forEach(tab=>{
-      tab.addEventListener("click", ()=> mostrarAba(tab.dataset.tab));
-    });
-
-    mostrarAba("pizzas");
-
-    function alterarQuantidade(id,delta){
-      const input=document.getElementById(`qtd-${id}`);
-      let val=parseInt(input.value)+delta;
+    function alterarQtd(nome,delta){
+      const input=document.getElementById(`qtd-${nome}`);
+      let val=parseInt(input.value)||1;
+      val+=delta;
       if(val<1) val=1;
       input.value=val;
     }
 
     function adicionarCarrinho(nome,tipo){
       const qtd=parseInt(document.getElementById(`qtd-${nome}`).value);
-      let tamanho="";
-      let preco=0;
+      let tamanho="", preco=0, sabor="";
       if(tipo==="pizza"){
         tamanho=document.getElementById(`tamanho-${nome}`).value;
-        preco=precos[tamanho] || 0;
+        preco = precos[tamanho] || 0;
       } else {
-        preco=precos[nome.replace(/([A-Z])/g,' $1').trim()] || 0;
+        preco = precos[nome] || 0;
+        sabor=document.getElementById(`sabor-${nome}`).value;
+        if(!sabor){ alert("Escolha o sabor do refrigerante!"); return; }
       }
-      carrinho.push({nome,tamanho,quantidade:qtd,preco});
+      carrinho.push({nome,tamanho,sabor,quantidade:qtd,preco});
       atualizarCarrinho();
     }
 
@@ -200,11 +184,11 @@
       container.innerHTML="";
       let total=0;
       carrinho.forEach((item,i)=>{
-        const subtotal=item.preco*item.quantidade;
-        total+=subtotal;
+        const subtotal = Number(item.preco) * Number(item.quantidade);
+        total += subtotal;
         container.innerHTML+=`
           <div class="item-carrinho">
-            <span>${item.quantidade}x ${item.nome} ${item.tamanho? "(" + item.tamanho + ")" : ""} - R$${subtotal},00</span>
+            <span>${item.quantidade}x ${item.nome} ${item.tamanho? "(" + item.tamanho + ")" : ""} ${item.sabor? "(" + item.sabor + ")" : ""} - R$${subtotal},00</span>
             <button onclick="removerItem(${i})">Remover</button>
           </div>
         `;
@@ -212,87 +196,40 @@
       document.getElementById("total").innerText=`Total: R$${total+taxaEntrega},00 (c/ entrega)`;
     }
 
-    function removerItem(i){ carrinho.splice(i,1); atualizarCarrinho(); }
-
-    document.getElementById("pagamento").addEventListener("change", function(){
-      const trocoContainer=document.getElementById("troco-container");
-      const pixContainer=document.getElementById("pix-container");
-      if(this.value==="Dinheiro"){
-        trocoContainer.hidden=false;
-        pixContainer.hidden=true;
-      } else if(this.value==="Pix"){
-        trocoContainer.hidden=true;
-        pixContainer.hidden=false;
-        gerarQRCodePix();
-      } else {
-        trocoContainer.hidden=true;
-        pixContainer.hidden=true;
-      }
-    });
-
-    function gerarQRCodePix(){
-      const qrUrl=`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pixChave)}`;
-      document.getElementById("pix-qr").src=qrUrl;
-      document.getElementById("pix-chave").innerText=pixChave;
+    function removerItem(i){
+      carrinho.splice(i,1);
+      atualizarCarrinho();
     }
-
-    document.getElementById("copiar-pix").addEventListener("click", function() {
-      const pix = document.getElementById("pix-chave").innerText;
-      navigator.clipboard.writeText(pix).then(() => {
-        alert("Chave Pix copiada para a área de transferência!");
-      });
-    });
-
-    document.getElementById("confirmar-pix").addEventListener("click", function() {
-      pixConfirmado = true;
-      alert("Pagamento via Pix confirmado! Você pode finalizar o pedido.");
-    });
 
     function finalizarPedido(){
       if(carrinho.length===0){ alert("Seu carrinho está vazio!"); return; }
-      const nome=document.getElementById("nome").value.trim();
-      const telefone=document.getElementById("telefone").value.trim();
-      const endereco=document.getElementById("endereco").value.trim();
+      const nome=document.getElementById("nome").value;
+      const tel=document.getElementById("telefone").value;
+      const end=document.getElementById("endereco").value;
       const pagamento=document.getElementById("pagamento").value;
-      const troco=document.getElementById("troco").value;
-      if(!nome||!telefone||!endereco||!pagamento){ alert("Preencha todos os campos!"); return; }
-
-      if(pagamento==="Pix" && !pixConfirmado){
-        if(!confirm("Você selecionou Pix, mas ainda não confirmou o pagamento. Deseja continuar?")){
-          return;
-        }
-      }
-
-      let subtotal=0;
-      let itensTxt="";
+      if(!nome||!tel||!end||!pagamento){ alert("Preencha todos os dados!"); return; }
+      let resumo="*Pedido Pizzaria Fornalha 76*%0A%0A";
       carrinho.forEach(item=>{
-        const valor=item.preco*item.quantidade;
-        subtotal+=valor;
-        itensTxt+=`${item.quantidade}x ${item.nome} ${item.tamanho? "(" + item.tamanho + ")" : ""} - R$${valor},00%0A`;
+        resumo+=`${item.quantidade}x ${item.nome} ${item.tamanho? "(" + item.tamanho + ")" : ""} ${item.sabor? "(" + item.sabor + ")" : ""}%0A`;
       });
-      const total=subtotal+taxaEntrega;
-      const horario=new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
-
-      let msg=`Pedido às ${horario}%0A`;
-      msg+=`Nome: ${nome}%0A`;
-      msg+=`Telefone: ${telefone}%0A`;
-      msg+=`Endereço: ${endereco}%0A%0A`;
-      msg+=`------------------------------%0A`;
-      msg+=itensTxt;
-      msg+=`------------------------------%0A`;
-      msg+=`Itens: R$${subtotal},00%0A`;
-      msg+=`Entrega: R$${taxaEntrega},00%0A`;
-      msg+=`TOTAL: R$${total},00%0A%0A`;
-      msg+=`Pagamento: ${pagamento}%0A`;
-      if(pagamento==="Dinheiro"&&troco){ msg+=`Troco para: R$${troco},00%0A`; }
-      if(pagamento==="Pix"){ 
-        msg+=`Chave Pix: ${pixChave}%0A`; 
-        if(pixConfirmado) msg+=`✅ Pagamento Pix confirmado!%0A`;
-      }
-
-      const url=`https://wa.me/5574999041959?text=${msg}`;
-      window.open(url,"_blank");
+      resumo+=`%0A*Entrega:* R$${taxaEntrega},00%0A`;
+      resumo+=`%0A*Nome:* ${nome}%0A*Tel:* ${tel}%0A*Endereço:* ${end}%0A*Pagamento:* ${pagamento}%0A`;
+      if(pagamento==="Pix"){ resumo+=`Chave Pix: ${pixChave}%0A`; }
+      window.open(`https://wa.me/5574999041959?text=${resumo}`,"_blank");
     }
+
+    document.querySelectorAll(".tab").forEach(tab=>{
+      tab.addEventListener("click",()=>{
+        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+        tab.classList.add("active");
+        const categoria=tab.dataset.tab;
+        document.querySelectorAll(".item-cardapio").forEach(card=>{
+          card.classList.remove("show");
+          if(card.dataset.tab===categoria){ card.classList.add("show"); }
+        });
+      });
+    });
+    document.querySelector(".tab.active").click();
   </script>
 </body>
-</html>
+  </html>
