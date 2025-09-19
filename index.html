@@ -1,128 +1,199 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cardápio Delivery</title>
-  <style>
-    .item-carrinho { margin: 5px 0; }
-    .tab.active { font-weight: bold; }
-  </style>
-</head>
-<body>
-  <div id="cardapio">
-    <!-- Exemplo: escolha de borda -->
-    <label for="borda">Borda:</label>
-    <select id="borda">
-      <option value="">Sem borda</option>
-      <option value="Cheddar">Cheddar</option>
-      <option value="Catupiry">Catupiry</option>
-    </select>
-  </div>
+ <!DOCTYPE html>  <html lang="pt-BR">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">    <style>  
+    body { margin:0; font-family:Arial,sans-serif; background:#1a1a1a; color:#f8f8f8; }  
+    header { background:#000; text-align:center; padding:20px; }  
+    header img { width:120px; display:block; margin:0 auto 10px; }  
+    header h1 { margin:10px 0 5px; font-size:2em; color:#e63946; }  
+    header p { font-size:1.1em; color:#f1c40f; }  
+    section { padding:40px 20px; max-width:1000px; margin:auto; }  
+    h2 { text-align:center; color:#f1c40f; margin-bottom:20px; }  
+    .tabs { display:flex; justify-content:center; gap:10px; margin-bottom:20px; flex-wrap:wrap; }  
+    .tab { padding:10px 20px; background:#e63946; color:#fff; cursor:pointer; border-radius:6px; font-weight:bold; }  
+    .tab.active { background:#f1c40f; color:#000; }  
+    .cardapio { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; }  
+    .item-cardapio { background:#222; padding:20px; border-radius:12px; text-align:center; display:none; }  
+    .item-cardapio.show { display:block; }  
+    .item-cardapio h3 { margin:10px 0; }  
+    .item-cardapio p { font-size:0.9em; color:#f1c40f; margin:5px 0 10px; text-align:left; }  
+    .item-cardapio select { margin:5px 0; padding:5px; border-radius:6px; border:none; }  
+    .quantidade-container { display:flex; justify-content:center; align-items:center; gap:5px; margin:5px 0; }  
+    .quantidade-container button { background:#e63946; border:none; color:#fff; padding:5px 10px; border-radius:6px; cursor:pointer; }  
+    .quantidade-container input { width:50px; text-align:center; }  
+    .item-cardapio button.add { margin-top:10px; padding:10px 15px; background:#e63946; border:none; border-radius:8px; color:#fff; cursor:pointer; }  
+    #carrinho { background:#111; padding:20px; margin-top:40px; border-radius:12px; max-width:600px; margin:auto; }  
+    .item-carrinho { background:#2a2a2a; padding:10px; margin:5px 0; border-radius:8px; display:flex; justify-content:space-between; align-items:center; }  
+    .item-carrinho button { background:#e63946; border:none; padding:5px 10px; border-radius:6px; color:#fff; }  
+    #finalizar { display:block; padding:12px 20px; background:#f1c40f; color:#000; font-weight:bold; border-radius:8px; text-decoration:none; margin:20px auto 0; width:fit-content; }  
+    input, select { width:100%; padding:8px; border-radius:6px; border:none; margin-top:5px; }  
+    label { display:block; margin-top:10px; color:#f1c40f; text-align:left; }  
+  </style>  </head>  
+<body>  
+<header style="text-align:center; padding:30px; background-color:#000; box-shadow: 0 4px 8px rgba(0,0,0,0.3);">  
+    <img src="logo.png" alt="Logo Pizzaria Fornalha 76" style="max-width:250px; height:auto; border-radius:15px; box-shadow: 0 2px 6px rgba(255,255,255,0.2);">  
+    <h1 style="color:#FFD700; font-family:'Arial Black', sans-serif; font-size:2.2em; margin-top:15px; text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">  
+        Pizzaria Fornalha 76  
+    </h1>  
+</header>  
+  <section id="cardapio">  
+    <h2>Nosso Cardápio</h2>  
+    <div class="tabs">  
+      <div class="tab active" data-tab="pizzas">Pizzas</div>  
+      <div class="tab" data-tab="ref1l">Refrigerante 1L</div>  
+      <div class="tab" data-tab="ref2l">Refrigerante 2L</div>  
+      <div class="tab" data-tab="refLata">Refrigerante Lata</div>  
+    </div>  
+    <div class="cardapio" id="lista-cardapio"></div>  
+  </section>    <section id="carrinho">  
+    <h2>🛒 Carrinho</h2>  
+    <div id="itens-carrinho"></div>  
+    <div id="total" style="margin-top:10px;font-weight:bold;color:#f1c40f;text-align:right;">Total: R$0,00</div>  <label>👤 Nome:</label>  
+<input type="text" id="nome" placeholder="Digite seu nome">  
+  
+<label>📞 Telefone:</label>  
+<input type="text" id="telefone" placeholder="(DDD) 90000-0000">  
+  
+<label>📍 Endereço:</label>  
+<input type="text" id="endereco" placeholder="Digite seu endereço">  
+  
+<label>💳 Forma de Pagamento:</label>  
+<select id="pagamento">  
+  <option value="">Selecione</option>  
+  <option value="Dinheiro">Dinheiro</option>  
+  <option value="Cartão">Cartão</option>  
+  <option value="Pix">Pix</option>  
+</select>  
+  
+<div id="troco-container" hidden>  
+  <label>Troco para:</label>  
+  <input type="number" id="troco" placeholder="Ex: 100">  
+</div>  
 
-  <div id="carrinho"></div>
-  <div id="total"></div>
+<div id="pix-container" hidden>  
+  <p>Escaneie o QR Code ou use a chave Pix abaixo:</p>  
+  <p><b id="pix-chave">08757823537</b></p>  
+  <div style="display:flex; gap:10px; margin-top:10px; flex-wrap:wrap;">  
+    <button id="copiar-pix" style="flex:1; padding:10px; background:#e63946; color:#fff; border:none; border-radius:8px; cursor:pointer;">Copiar chave Pix</button>  
+    <button id="confirmar-pix" style="flex:1; padding:10px; background:#f1c40f; color:#000; border:none; border-radius:8px; cursor:pointer;">Já paguei via Pix ✅</button>  
+  </div>  
+</div>  
 
-  <label for="nome">Nome:</label><input id="nome" type="text"><br>
-  <label for="telefone">Telefone:</label><input id="telefone" type="text"><br>
-  <label for="endereco">Endereço:</label><input id="endereco" type="text"><br>
+<a id="finalizar" href="javascript:void(0)" onclick="finalizarPedido()">Finalizar Pedido no WhatsApp</a>
 
-  <label for="pagamento">Pagamento:</label>
-  <select id="pagamento">
-    <option value="Dinheiro">Dinheiro</option>
-    <option value="Pix">Pix</option>
-  </select>
-
-  <div id="troco-container" hidden>
-    <label for="troco">Troco para:</label><input id="troco" type="number">
-  </div>
-
-  <div id="pix-container" hidden>
-    <p>Chave Pix: <span id="pix-chave">suachavepix</span></p>
-    <button id="copiar-pix">Copiar chave</button>
-    <button id="confirmar-pix">Confirmar pagamento</button>
-  </div>
-
-  <button onclick="finalizarPedido()">Finalizar Pedido</button>
-
-  <script>
-    let carrinho=[];
-    let taxaEntrega=5;
-    let pixChave="suachavepix";
-    let pixConfirmado=false;
-
-    function atualizarCarrinho(){
-      const container=document.getElementById("carrinho");
-      container.innerHTML="";
-      let total=0;
-      carrinho.forEach((item,i)=>{
-        let subtotal=item.preco*item.quantidade;
-        total+=subtotal;
-        container.innerHTML+=`
-          <div class="item-carrinho">
-            <span>${item.quantidade}x ${item.nome} 
-              ${item.tamanho? "(" + item.tamanho + ")" : ""} 
-              ${item.sabor? "(" + item.sabor + ")" : ""} 
-              ${item.borda? "(Borda: " + item.borda + ")" : ""} 
-              - R$${subtotal},00
-            </span>
-            <button onclick="removerItem(${i})">Remover</button>
-          </div>`;
-      });
-      document.getElementById("total").innerText=`Total: R$${total+taxaEntrega},00 (c/ entrega)`;
-    }
-
-    function removerItem(i){ carrinho.splice(i,1); atualizarCarrinho(); }
-
-    document.querySelectorAll(".tab").forEach(tab=>{
-      tab.addEventListener("click",()=>{
-        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-        tab.classList.add("active");
-        const alvo = tab.dataset.tab;
-        document.querySelectorAll(".item-cardapio").forEach(item=>{
-          item.classList.remove("show");
-          if(item.dataset.tab===alvo) item.classList.add("show");
-        });
-      });
-    });
-
-    document.querySelector(".tab.active")?.click();
-    document.getElementById("pagamento").addEventListener("change",function(){
-      document.getElementById("troco-container").hidden=this.value!=="Dinheiro";
-      document.getElementById("pix-container").hidden=this.value!=="Pix";
-    });
-    document.getElementById("copiar-pix").addEventListener("click",()=>{navigator.clipboard.writeText(pixChave); alert("Chave Pix copiada!");});
-    document.getElementById("confirmar-pix").addEventListener("click",()=>{pixConfirmado=true; alert("Pagamento via Pix confirmado ✅");});
-
-    // Função exemplo de adicionar item (adicione onde já chama no seu menu)
-    function adicionarAoCarrinho(nome, preco, tamanho="", sabor=""){
-      const borda = document.getElementById("borda").value; // pega a borda escolhida
-      carrinho.push({nome, preco, quantidade:1, tamanho, sabor, borda});
-      atualizarCarrinho();
-    }
-
-    function finalizarPedido(){
-      if(carrinho.length===0){ alert("Seu carrinho está vazio!"); return; }
-      const nome=document.getElementById("nome").value;
-      const tel=document.getElementById("telefone").value;
-      const end=document.getElementById("endereco").value;
-      const pagamento=document.getElementById("pagamento").value;
-      let total= carrinho.reduce((s,it)=>s+(it.preco*it.quantidade),0)+taxaEntrega;
-      let texto=`Pedido às ${new Date().toLocaleTimeString()}\nNome: ${nome}\nTelefone: ${tel}\nEndereço: ${end}\n\n------------------------------\n`;
-      carrinho.forEach(item=>{
-        let subtotal=item.preco*item.quantidade;
-        texto+=`${item.quantidade}x ${item.nome} 
-                 ${item.tamanho? "(" + item.tamanho + ")" : ""} 
-                 ${item.sabor? "(" + item.sabor + ")" : ""} 
-                 ${item.borda? "(Borda: " + item.borda + ")" : ""} 
-                 - R$${subtotal},00\n`;
-      });
-      texto+="------------------------------\n";
-      texto+=`Itens: R$${total-taxaEntrega},00\nEntrega: R$${taxaEntrega},00\nTOTAL: R$${total},00\n\nPagamento: ${pagamento}\n`;
-      if(pagamento==="Pix"){ texto+=`Chave Pix: ${pixChave}\n${pixConfirmado?"✅ Pagamento Pix confirmado!":""}`; }
-      if(pagamento==="Dinheiro"){ let troco=document.getElementById("troco").value; if(troco) texto+=`Troco para: R$${troco},00\n`; }
-      window.open("https://wa.me/5574999041959?text="+encodeURIComponent(texto),"_blank");
-    }
-  </script>
-</body>
-</html>        
+  </section>    <script>  
+    const precos = { Broto:25, Média:35, Grande:45, Família:55, "Refrigerante 1L":10, "Refrigerante 2L":15, "Refrigerante Lata":5 };  
+    const cardapio = [  
+      {nome:"Calabresa",desc:"Molho de tomate, queijo, calabresa e cebola.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Frango c/ Catupiry",desc:"Molho de tomate, queijo, frango desfiado e catupiry.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Portuguesa",desc:"Molho de tomate, queijo, presunto, ovo, cebola e azeitona.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Carne Seca",desc:"Molho de tomate, queijo e carne seca desfiada.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Frango c/ Cheddar",desc:"Molho de tomate, queijo, frango desfiado e cheddar.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Marguerita",desc:"Molho de tomate, queijo e manjericão.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"4 Queijos",desc:"Molho de tomate, muçarela, provolone, gorgonzola e parmesão.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Atum",desc:"Molho de tomate, queijo e atum.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Napolitana",desc:"Molho de tomate, queijo, tomate e orégano.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Baiana",desc:"Molho de tomate, queijo, calabresa, ovo e cebola.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Vegetariana",desc:"Molho de tomate, queijo, tomate, milho, ervilha e cebola.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Escarola",desc:"Molho de tomate, queijo e escarola refogada.",tipo:"pizza",tab:"pizzas"},  
+      {nome:"Refrigerante 1L",desc:"Refrigerante 1 litro",tipo:"bebida",tab:"ref1l"},  
+      {nome:"Refrigerante 2L",desc:"Refrigerante 2 litros",tipo:"bebida",tab:"ref2l"},  
+      {nome:"Refrigerante Lata",desc:"Refrigerante em lata",tipo:"bebida",tab:"refLata"}  
+    ];  
+    let carrinho=[], taxaEntrega=3, pixChave="08757823537", pixConfirmado=false;  
+  
+    const lista=document.getElementById("lista-cardapio");  
+    cardapio.forEach(item=>{  
+      const card=document.createElement("div");  
+      card.className="item-cardapio";  
+      card.dataset.tab=item.tab;  
+      card.innerHTML=`  
+        <h3>${item.nome}</h3>  
+        <p><b>Ingredientes:</b> ${item.desc}</p>  
+        ${item.tipo==="pizza"?`  
+          <label>Tamanho:</label>  
+          <select id="tamanho-${item.nome}">  
+            <option>Broto</option>  
+            <option>Média</option>  
+            <option>Grande</option>  
+            <option>Família</option>  
+          </select>  
+        `:`  
+          <label>Sabor:</label>  
+          <select id="sabor-${item.nome}">  
+            <option>Coca</option>  
+            <option>Guaraná</option>  
+            <option>Fanta</option>  
+          </select>  
+        `}  
+        <div class="quantidade-container">  
+          <button onclick="alterarQtd('${item.nome}',-1)">-</button>  
+          <input type="number" id="qtd-${item.nome}" value="1" min="1">  
+          <button onclick="alterarQtd('${item.nome}',1)">+</button>  
+        </div>  
+        <button class="add" onclick="adicionarCarrinho('${item.nome}','${item.tipo}')">Adicionar</button>  
+      `;  
+      lista.appendChild(card);  
+    });  
+  
+    function alterarQtd(nome,delta){ const input=document.getElementById(`qtd-${nome}`); let val=parseInt(input.value)+delta; if(val<1) val=1; input.value=val; }  
+  
+    function adicionarCarrinho(nome,tipo){  
+      const qtd=parseInt(document.getElementById(`qtd-${nome}`).value);  
+      let tamanho="", preco=0, sabor="";  
+      if(tipo==="pizza"){ tamanho=document.getElementById(`tamanho-${nome}`).value; preco=precos[tamanho]; }  
+      else{ preco=precos[nome]; sabor=document.getElementById(`sabor-${nome}`).value; }  
+      carrinho.push({nome,tamanho,sabor,quantidade:qtd,preco}); atualizarCarrinho();  
+    }  
+  
+    function atualizarCarrinho(){  
+      const container=document.getElementById("itens-carrinho");  
+      container.innerHTML="";  
+      let total=0;  
+      carrinho.forEach((item,i)=>{  
+        const subtotal=item.preco*item.quantidade; total+=subtotal;  
+        container.innerHTML+=`<div class="item-carrinho"><span>${item.quantidade}x ${item.nome} ${item.tamanho? "(" + item.tamanho + ")" : ""} ${item.sabor? "(" + item.sabor + ")" : ""} - R$${subtotal},00</span><button onclick="removerItem(${i})">Remover</button></div>`;  
+      });  
+      document.getElementById("total").innerText=`Total: R$${total+taxaEntrega},00 (c/ entrega)`;  
+    }  
+  
+    function removerItem(i){ carrinho.splice(i,1); atualizarCarrinho(); }  
+  
+    document.querySelectorAll(".tab").forEach(tab=>{  
+      tab.addEventListener("click",()=>{  
+        document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));  
+        tab.classList.add("active");  
+        const alvo = tab.dataset.tab;  
+        document.querySelectorAll(".item-cardapio").forEach(item=>{  
+          item.classList.remove("show");  
+          if(item.dataset.tab===alvo) item.classList.add("show");  
+        });  
+      });  
+    });  
+  
+    document.querySelector(".tab.active").click();  
+    document.getElementById("pagamento").addEventListener("change",function(){  
+      document.getElementById("troco-container").hidden=this.value!=="Dinheiro";  
+      document.getElementById("pix-container").hidden=this.value!=="Pix";  
+    });  
+    document.getElementById("copiar-pix").addEventListener("click",()=>{navigator.clipboard.writeText(pixChave); alert("Chave Pix copiada!");});  
+    document.getElementById("confirmar-pix").addEventListener("click",()=>{pixConfirmado=true; alert("Pagamento via Pix confirmado ✅");});  
+  
+    function finalizarPedido(){  
+      if(carrinho.length===0){ alert("Seu carrinho está vazio!"); return; }  
+      const nome=document.getElementById("nome").value;  
+      const tel=document.getElementById("telefone").value;  
+      const end=document.getElementById("endereco").value;  
+      const pagamento=document.getElementById("pagamento").value;  
+      let total= carrinho.reduce((s,it)=>s+(it.preco*it.quantidade),0)+taxaEntrega;  
+      let texto=`Pedido às ${new Date().toLocaleTimeString()}\nNome: ${nome}\nTelefone: ${tel}\nEndereço: ${end}\n\n------------------------------\n`;  
+      carrinho.forEach(item=>{ let subtotal=item.preco*item.quantidade; texto+=`${item.quantidade}x ${item.nome} ${item.tamanho? "(" + item.tamanho + ")" : ""} ${item.sabor? "(" + item.sabor + ")" : ""} - R$${subtotal},00\n`; });  
+      texto+="------------------------------\n";  
+      texto+=`Itens: R$${total-taxaEntrega},00\nEntrega: R$${taxaEntrega},00\nTOTAL: R$${total},00\n\nPagamento: ${pagamento}\n`;  
+      if(pagamento==="Pix"){ texto+=`Chave Pix: ${pixChave}\n${pixConfirmado?"✅ Pagamento Pix confirmado!":""}`; }  
+      if(pagamento==="Dinheiro"){ let troco=document.getElementById("troco").value; if(troco) texto+=`Troco para: R$${troco},00\n`; }  
+      window.open("https://wa.me/5574999041959?text="+encodeURIComponent(texto),"_blank");  
+    }  
+  </script>  </body>  
+</html>  
+Faça um cardápio com os sabores de pizzas que está nesse código 
