@@ -48,19 +48,19 @@ function enviarWhatsApp() {
     total += item.preco;
   });
 
-  let mensagem = `📦 *Novo Pedido*%0A
-🕒 Horário: ${new Date().toLocaleString()}%0A
-👤 Nome: ${nome}%0A
-📞 Telefone: ${telefone}%0A
-📍 Endereço: ${endereco}%0A
-💳 Pagamento: ${pagamento}%0A`;
+  let mensagem = `📦 *Novo Pedido*%0A` +
+  `🕒 Horário: ${new Date().toLocaleString()}%0A` +
+  `👤 Nome: ${nome}%0A` +
+  `📞 Telefone: ${telefone}%0A` +
+  `📍 Endereço: ${endereco}%0A` +
+  `💳 Pagamento: ${pagamento}%0A`;
 
   if (pagamento === "Pix") mensagem += `🔑 Chave Pix: 08757823537%0A`;
   if (pagamento === "Dinheiro" && troco) mensagem += `💵 Troco para: R$ ${troco}%0A`;
 
-  mensagem += `%0A------------------%0A
-🍕 *Itens do Pedido*%0A${listaItens}
-💰 Total: R$ ${total.toFixed(2)}`;
+  mensagem += `%0A------------------%0A` +
+  `🍽️ *Itens do Pedido*%0A${listaItens}` +
+  `💰 Total: R$ ${total.toFixed(2)}`;
 
   let url = `https://wa.me/5574999041959?text=${mensagem}`;
   window.open(url, "_blank");
