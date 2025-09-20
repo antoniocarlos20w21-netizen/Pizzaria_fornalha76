@@ -1,10 +1,10 @@
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
 // Atualizar carrinho na tela
 function atualizarCarrinho() {
   let lista = document.getElementById("lista-carrinho");
   let totalTexto = document.getElementById("total");
-  if (!lista || !totalTexto) return; // se não estiver no index.html
+  if (!lista || !totalTexto) return;
 
   lista.innerHTML = "";
   let total = 0;
@@ -43,28 +43,27 @@ function enviarWhatsApp() {
 
   let listaItens = "";
   let total = 0;
+
   carrinho.forEach(item => {
-    listaItens += `🍕 ${item.sabor} | Borda: ${item.borda} | R$ ${item.preco.toFixed(2)}%0A`;
+    listaItens += `1x ${item.sabor} [Borda: ${item.borda}] - R$ ${item.preco.toFixed(2)}%0A`;
     total += item.preco;
   });
 
-  let mensagem = `📦 *Novo Pedido*%0A` +
-  `🕒 Horário: ${new Date().toLocaleString()}%0A` +
-  `👤 Nome: ${nome}%0A` +
-  `📞 Telefone: ${telefone}%0A` +
-  `📍 Endereço: ${endereco}%0A` +
-  `💳 Pagamento: ${pagamento}%0A`;
+  let mensagem = `--------------------------------%0A${listaItens}--------------------------------%0AItens: R$ ${total.toFixed(2)}%0AEntrega: R$ 3,00%0ATOTAL: R$ ${(total + 3).toFixed(2)}%0A%0A`;
 
-  if (pagamento === "Pix") mensagem += `🔑 Chave Pix: 08757823537%0A`;
-  if (pagamento === "Dinheiro" && troco) mensagem += `💵 Troco para: R$ ${troco}%0A`;
+  mensagem += `Pagamento: ${pagamento}%0A`;
+  if (pagamento === "Pix") mensagem += `Chave Pix: 08757823537%0A`;
+  if (pagamento === "Dinheiro" && troco) mensagem += `Troco para: R$ ${troco}%0A`;
 
-  mensagem += `%0A------------------%0A` +
-  `🍽️ *Itens do Pedido*%0A${listaItens}` +
-  `💰 Total: R$ ${total.toFixed(2)}`;
+  mensagem += `%0A📦 *Novo Pedido*%0A`;
+  mensagem += `👤 Nome: ${nome}%0A`;
+  mensagem += `📞 Telefone: ${telefone}%0A`;
+  mensagem += `📍 Endereço: ${endereco}%0A`;
+  mensagem += `🕒 Pedido às: ${new Date().toLocaleTimeString()}%0A`;
 
   let url = `https://wa.me/5574999041959?text=${mensagem}`;
   window.open(url, "_blank");
 }
 
-// Atualiza carrinho ao carregar página
+// Atualiza carrinho ao carregar
 atualizarCarrinho();
