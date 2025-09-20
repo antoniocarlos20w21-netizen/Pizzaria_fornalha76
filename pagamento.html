@@ -2,58 +2,65 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pagamento - Pizzaria Fornalha 76</title>
   <style>
-    body {background:#1a1a1a; color:#fff; font-family:Arial, sans-serif;}
-    h1 {color:#FFD700;}
-    label {display:block; margin-top:10px;}
-    input, select {width:100%; padding:8px; margin-top:5px; border-radius:5px;}
-    button {margin-top:20px; padding:10px; width:100%; background:#FFD700; border:none; font-weight:bold;}
-    #pixInfo, #trocoInfo {display:none; margin-top:10px; color:#FFD700;}
+    body { background:#1a1a1a; color:#fff; font-family: Arial, sans-serif; margin:0; padding:0; }
+    header { background:#000; text-align:center; padding:20px; }
+    header img { width:120px; border-radius:10px; }
+    header h1 { color:#FFD700; margin-top:10px; }
+    section { max-width:600px; margin:20px auto; background:#222; padding:20px; border-radius:10px; }
+    label { display:block; margin-top:10px; font-weight:bold; }
+    input, select { width:100%; padding:10px; margin-top:5px; border:none; border-radius:5px; }
+    button { margin-top:20px; width:100%; padding:15px; background:#FFD700; color:#000; font-weight:bold; border:none; border-radius:5px; cursor:pointer; }
+    button:hover { background:#e6c200; }
+    .pix-info, .troco-info { display:none; margin-top:10px; background:#333; padding:10px; border-radius:5px; }
   </style>
 </head>
 <body>
-  <h1>Pagamento</h1>
+  <header>
+    <img src="https://i.ibb.co/ZVPkDPJ/logo.png" alt="Logo Pizzaria Fornalha 76">
+    <h1>Pagamento</h1>
+  </header>
 
-  <form id="pedidoForm">
-    <label>Nome:</label>
-    <input type="text" id="nome" required>
+  <section>
+    <h2>📍 Endereço & Pagamento</h2>
+    
+    <label>👤 Nome:</label>
+    <input type="text" id="nome" placeholder="Digite seu nome" required>
 
-    <label>Telefone:</label>
-    <input type="tel" id="telefone" required>
+    <label>📞 Telefone:</label>
+    <input type="text" id="telefone" placeholder="Digite seu telefone" required>
 
-    <label>Endereço:</label>
-    <input type="text" id="endereco" required>
+    <label>📍 Endereço:</label>
+    <input type="text" id="endereco" placeholder="Rua, nº, bairro" required>
 
-    <label>Forma de Pagamento:</label>
-    <select id="pagamento" required>
-      <option value="">Selecione</option>
+    <label>💳 Forma de Pagamento:</label>
+    <select id="pagamento" onchange="mostrarOpcoes()">
       <option value="Pix">Pix</option>
       <option value="Dinheiro">Dinheiro</option>
       <option value="Cartão">Cartão</option>
     </select>
 
-    <!-- Info Pix -->
-    <div id="pixInfo">💳 Chave Pix: <b>seuemail@pix.com</b></div>
-
-    <!-- Info Troco -->
-    <div id="trocoInfo">
-      <label>Troco para quanto?</label>
-      <input type="text" id="troco">
+    <div class="pix-info" id="pixInfo">
+      🔑 Chave Pix: <b>08757823537</b>
     </div>
 
-    <button type="button" onclick="enviarWhatsApp()">Enviar Pedido pelo WhatsApp</button>
-  </form>
+    <div class="troco-info" id="trocoInfo">
+      <label>Troco para quanto?</label>
+      <input type="text" id="troco" placeholder="Ex: 100,00">
+    </div>
+
+    <button onclick="enviarWhatsApp()">📲 Enviar Pedido pelo WhatsApp</button>
+  </section>
 
   <script>
-    // Mostrar chave Pix ou campo troco conforme seleção
-    document.getElementById("pagamento").addEventListener("change", function() {
-      let escolha = this.value;
-      document.getElementById("pixInfo").style.display = (escolha === "Pix") ? "block" : "none";
-      document.getElementById("trocoInfo").style.display = (escolha === "Dinheiro") ? "block" : "none";
-    });
+    function mostrarOpcoes() {
+      let pagamento = document.getElementById("pagamento").value;
+      document.getElementById("pixInfo").style.display = pagamento === "Pix" ? "block" : "none";
+      document.getElementById("trocoInfo").style.display = pagamento === "Dinheiro" ? "block" : "none";
+    }
 
-    // Enviar para WhatsApp
     function enviarWhatsApp() {
       let nome = document.getElementById("nome").value;
       let telefone = document.getElementById("telefone").value;
@@ -61,21 +68,20 @@
       let pagamento = document.getElementById("pagamento").value;
       let troco = document.getElementById("troco").value;
 
-      let mensagem = `📌 Pedido Pizzaria Fornalha 76%0A
+      let mensagem = `📦 *Novo Pedido*%0A
 👤 Nome: ${nome}%0A
 📞 Telefone: ${telefone}%0A
-🏠 Endereço: ${endereco}%0A
+📍 Endereço: ${endereco}%0A
 💳 Pagamento: ${pagamento}`;
 
-      if (pagamento === "Dinheiro" && troco) {
-        mensagem += `%0A💵 Troco para: ${troco}`;
-      }
       if (pagamento === "Pix") {
-        mensagem += `%0A🔑 Chave Pix: seuemail@pix.com`;
+        mensagem += `%0A🔑 Chave Pix: 08757823537`;
+      }
+      if (pagamento === "Dinheiro" && troco) {
+        mensagem += `%0A💵 Troco para: R$ ${troco}`;
       }
 
-      let numeroPizzaria = "557499999999"; // << coloque o número do WhatsApp da pizzaria aqui
-      let url = `https://wa.me/${numeroPizzaria}?text=${mensagem}`;
+      let url = `https://wa.me/5574999041959?text=${mensagem}`;
       window.open(url, "_blank");
     }
   </script>
