@@ -1,4 +1,4 @@
-  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
 
 // Atualizar carrinho na tela
 function atualizarCarrinho() {
@@ -9,9 +9,9 @@ function atualizarCarrinho() {
   lista.innerHTML = "";
   let total = 0;
 
-  carrinho.forEach((item, i) => {
+  carrinho.forEach(item => {
     let li = document.createElement("li");
-    li.textContent = `${item.sabor} | Borda: ${item.borda} | R$ ${item.preco.toFixed(2)}`;
+    li.textContent = `1x ${item.sabor} (${item.tamanho}) [Borda: ${item.borda}] - R$ ${item.preco.toFixed(2)}`;
     lista.appendChild(li);
     total += item.preco;
   });
@@ -19,9 +19,9 @@ function atualizarCarrinho() {
   totalTexto.textContent = `Total: R$ ${total.toFixed(2)}`;
 }
 
-function adicionarCarrinho(sabor, bordaId, preco) {
+function adicionarCarrinho(sabor, tamanho, bordaId, preco) {
   let borda = document.getElementById(bordaId).value;
-  carrinho.push({ sabor, borda, preco });
+  carrinho.push({ sabor, tamanho, borda, preco });
   localStorage.setItem("carrinho", JSON.stringify(carrinho));
   atualizarCarrinho();
 }
@@ -45,15 +45,15 @@ function enviarWhatsApp() {
   let total = 0;
 
   carrinho.forEach(item => {
-    listaItens += `1x ${item.sabor} [Borda: ${item.borda}] - R$ ${item.preco.toFixed(2)}%0A`;
+    listaItens += `1x ${item.sabor} (${item.tamanho}) [Borda: ${item.borda}] - R$ ${item.preco.toFixed(2)}%0A`;
     total += item.preco;
   });
 
   let mensagem = `--------------------------------%0A${listaItens}--------------------------------%0AItens: R$ ${total.toFixed(2)}%0AEntrega: R$ 3,00%0ATOTAL: R$ ${(total + 3).toFixed(2)}%0A%0A`;
 
   mensagem += `Pagamento: ${pagamento}%0A`;
-  if (pagamento === "Pix") mensagem += `Chave Pix: 08757823537%0A`;
-  if (pagamento === "Dinheiro" && troco) mensagem += `Troco para: R$ ${troco}%0A`;
+  if (pagamento === "Pix") mensagem += `🔑 Chave Pix: 08757823537%0A`;
+  if (pagamento === "Dinheiro" && troco) mensagem += `💵 Troco para: R$ ${troco}%0A`;
 
   mensagem += `%0A📦 *Novo Pedido*%0A`;
   mensagem += `👤 Nome: ${nome}%0A`;
