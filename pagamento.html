@@ -1,85 +1,35 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pagamento - Pizzaria Fornalha 76</title>
-  <style>
-    body { background:#111; color:#fff; font-family: Arial; text-align:center; }
-    h1 { color:#FFD700; }
-    .form { background:#222; padding:20px; border-radius:10px; margin:20px; }
-    input, select { width:90%; padding:10px; margin:10px 0; border:none; border-radius:5px; }
-    button { background:#FFD700; border:none; padding:15px; width:95%; margin-top:15px; border-radius:8px; font-size:16px; cursor:pointer; }
-    button:hover { background:#e6c200; }
-    #pixInfo, #trocoInfo { display:none; margin-top:10px; }
-  </style>
-</head>
-<body>
-  <h1>💳 Pagamento</h1>
+!DOCTYPE html>
 
-  <div class="form">
-    <input type="text" id="nome" placeholder="Nome Completo" required>
-    <input type="text" id="telefone" placeholder="Telefone" required>
-    <input type="text" id="endereco" placeholder="Endereço" required>
+<html lang="pt-BR">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Pagamento - Pizzaria Fornalha 76</title>  
+  <style>  
+    body { background:#111; color:#fff; font-family: Arial; text-align:center; }  
+    h1 { color:#FFD700; }  
+    .form { background:#222; padding:20px; border-radius:10px; margin:20px; }  
+    input, select { width:90%; padding:10px; margin:10px 0; border:none; border-radius:5px; }  
+    button { background:#FFD700; border:none; padding:15px; width:95%; margin-top:15px; border-radius:8px; font-size:16px; cursor:pointer; }  
+    button:hover { background:#e6c200; }  
+    #pixInfo, #trocoInfo { display:none; margin-top:10px; }  
+  </style>  
+</head>  
+<body>  
+  <h1>💳 Pagamento</h1>    <div class="form">  
+    <input type="text" id="nome" placeholder="Nome Completo" required>  
+    <input type="text" id="telefone" placeholder="Telefone" required>  
+    <input type="text" id="endereco" placeholder="Endereço" required>  <select id="pagamento" onchange="mostrarOpcoes()">  
+  <option disabled selected>Selecione a forma de pagamento</option>  
+  <option value="Pix">Pix</option>  
+  <option value="Cartão">Cartão</option>  
+  <option value="Dinheiro">Dinheiro</option>  
+</select>  
 
-    <select id="pagamento" onchange="mostrarOpcoes()">
-      <option disabled selected>Selecione a forma de pagamento</option>
-      <option value="Pix">Pix</option>
-      <option value="Cartão">Cartão</option>
-      <option value="Dinheiro">Dinheiro</option>
-    </select>
+<div id="pixInfo">🔑 Chave Pix: <b>08757823537</b></div>  
+<div id="trocoInfo"><input type="text" id="troco" placeholder="Troco para quanto?"></div>  
 
-    <div id="pixInfo">🔑 Chave Pix: <b>08757823537</b></div>
-    <div id="trocoInfo"><input type="text" id="troco" placeholder="Troco para quanto?"></div>
+<button onclick="enviarWhatsApp()">📲 Enviar Pedido pelo WhatsApp</button>
 
-    <button onclick="enviarWhatsApp()">📲 Enviar Pedido pelo WhatsApp</button>
-  </div>
-
-  <script>
-    function mostrarOpcoes() {
-      const pagamento = document.getElementById("pagamento").value;
-      document.getElementById("pixInfo").style.display = pagamento === "Pix" ? "block" : "none";
-      document.getElementById("trocoInfo").style.display = pagamento === "Dinheiro" ? "block" : "none";
-    }
-
-    function enviarWhatsApp() {
-      const nome = document.getElementById("nome").value;
-      const telefone = document.getElementById("telefone").value;
-      const endereco = document.getElementById("endereco").value;
-      const pagamento = document.getElementById("pagamento").value;
-      const troco = document.getElementById("troco") ? document.getElementById("troco").value : "";
-
-      // Recupera dados do pedido
-      const sabor = localStorage.getItem("saborPizza") || "Não informado";
-      const tamanho = localStorage.getItem("tamanhoPizza") || "Não informado";
-      const preco = localStorage.getItem("precoPizza") || "R$ 0,00";
-      const entrega = 4.00; // 💰 Valor fixo da entrega atualizado
-      const precoNumero = parseFloat(preco.replace("R$", "").replace(",", "."));
-      const total = (precoNumero + entrega).toFixed(2);
-
-      // Monta mensagem do WhatsApp
-      const mensagem = `
-------------------------------
-🍕 *Novo Pedido - Pizzaria Fornalha 76* 🍕
-------------------------------
-📦 *Sabor:* ${sabor}
-📏 *Tamanho:* ${tamanho}
-💵 *Itens:* ${preco}
-🚚 *Entrega:* R$ ${entrega.toFixed(2)}
-💰 *TOTAL:* R$ ${total}
-------------------------------
-💳 *Pagamento:* ${pagamento}${troco ? ` (troco para R$${troco})` : ""}
-👤 *Nome:* ${nome}
-📞 *Telefone:* ${telefone}
-📍 *Endereço:* ${endereco}
-🕒 *Pedido às:* ${new Date().toLocaleTimeString()}
-------------------------------
-`;
-
-      const numeroWhatsApp = "74999041959"; // Número da pizzaria
-      const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
-      window.open(url, "_blank");
-    }
-  </script>
-</body>
-</html>
+  </div>    <script src="script.js"></script>  </body>  
+</html> é aqui em pagamentos que resolve
