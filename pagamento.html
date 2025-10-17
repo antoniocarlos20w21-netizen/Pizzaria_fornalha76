@@ -5,11 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pagamento - Pizzaria Fornalha 76</title>
   <style>
-    body { background:#111; color:#fff; font-family: Arial; text-align:center; }
-    h1 { color:#FFD700; }
-    .form { background:#222; padding:20px; border-radius:10px; margin:20px; }
-    input, select { width:90%; padding:10px; margin:10px 0; border:none; border-radius:5px; }
-    button { background:#FFD700; border:none; padding:15px; width:95%; margin-top:15px; border-radius:8px; font-size:16px; cursor:pointer; }
+    body { background:#111; color:#fff; font-family: Arial; text-align:center; margin:0; padding:0; }
+    h1 { color:#FFD700; margin-top:20px; }
+    .form {
+      background:#222;
+      padding:20px;
+      border-radius:10px;
+      margin:20px;
+      max-width:400px;
+      margin-left:auto;
+      margin-right:auto;
+      box-shadow:0 0 10px #000;
+    }
+    input, select {
+      width:90%;
+      padding:10px;
+      margin:10px 0;
+      border:none;
+      border-radius:5px;
+      font-size:15px;
+    }
+    button {
+      background:#FFD700;
+      border:none;
+      padding:15px;
+      width:95%;
+      margin-top:15px;
+      border-radius:8px;
+      font-size:16px;
+      cursor:pointer;
+      color:#000;
+      font-weight:bold;
+    }
     button:hover { background:#e6c200; }
     #pixInfo, #trocoInfo { display:none; margin-top:10px; }
   </style>
@@ -49,22 +76,24 @@
       const pagamento = document.getElementById("pagamento").value;
       const troco = document.getElementById("troco") ? document.getElementById("troco").value : "";
 
-      // Recupera dados do pedido
+      // Recupera dados do pedido do localStorage
       const sabor = localStorage.getItem("saborPizza") || "Não informado";
       const tamanho = localStorage.getItem("tamanhoPizza") || "Não informado";
       const preco = localStorage.getItem("precoPizza") || "R$ 0,00";
-      const entrega = 4.00; // 💰 Valor fixo da entrega atualizado
+
+      // Cálculo total (inclui entrega R$4,00)
+      const entrega = 4.00;
       const precoNumero = parseFloat(preco.replace("R$", "").replace(",", "."));
       const total = (precoNumero + entrega).toFixed(2);
 
-      // Monta mensagem do WhatsApp
+      // Mensagem formatada
       const mensagem = `
 ------------------------------
 🍕 *Novo Pedido - Pizzaria Fornalha 76* 🍕
 ------------------------------
 📦 *Sabor:* ${sabor}
 📏 *Tamanho:* ${tamanho}
-💵 *Itens:* ${preco}
+💵 *Valor da Pizza:* ${preco}
 🚚 *Entrega:* R$ ${entrega.toFixed(2)}
 💰 *TOTAL:* R$ ${total}
 ------------------------------
@@ -76,7 +105,8 @@
 ------------------------------
 `;
 
-      const numeroWhatsApp = "5574999041959"; // Número da pizzaria
+      // Enviar via WhatsApp
+      const numeroWhatsApp = "5574999041959";
       const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
       window.open(url, "_blank");
     }
