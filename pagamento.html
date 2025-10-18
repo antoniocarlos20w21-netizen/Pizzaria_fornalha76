@@ -70,23 +70,31 @@
     }
 
     function enviarWhatsApp() {
-      const nome = document.getElementById("nome").value;
-      const telefone = document.getElementById("telefone").value;
-      const endereco = document.getElementById("endereco").value;
+      const nome = document.getElementById("nome").value.trim();
+      const telefone = document.getElementById("telefone").value.trim();
+      const endereco = document.getElementById("endereco").value.trim();
       const pagamento = document.getElementById("pagamento").value;
-      const troco = document.getElementById("troco") ? document.getElementById("troco").value : "";
+      const troco = document.getElementById("troco") ? document.getElementById("troco").value.trim() : "";
 
       // Recupera dados do pedido do localStorage
-      const sabor = localStorage.getItem("saborPizza") || "Não informado";
-      const tamanho = localStorage.getItem("tamanhoPizza") || "Não informado";
-      const preco = localStorage.getItem("precoPizza") || "R$ 0,00";
+      let sabor = localStorage.getItem("saborPizza");
+      let tamanho = localStorage.getItem("tamanhoPizza");
+      let preco = localStorage.getItem("precoPizza");
 
-      // Cálculo total (inclui entrega R$4,00)
+      // Verificação se os dados existem
+      if (!sabor || !tamanho || !preco) {
+        alert("⚠️ Faltam informações do pedido (sabor, tamanho ou preço). Volte ao cardápio e selecione a pizza novamente!");
+        sabor = "Não informado";
+        tamanho = "Não informado";
+        preco = "R$ 0,00";
+      }
+
+      // Cálculo total (entrega R$4,00)
       const entrega = 4.00;
       const precoNumero = parseFloat(preco.replace("R$", "").replace(",", "."));
       const total = (precoNumero + entrega).toFixed(2);
 
-      // Mensagem formatada
+      // Mensagem formatada para WhatsApp
       const mensagem = `
 ------------------------------
 🍕 *Novo Pedido - Pizzaria Fornalha 76* 🍕
@@ -106,10 +114,16 @@
 `;
 
       // Enviar via WhatsApp
-      const numeroWhatsApp = "5574999041959";
+      const numeroWhatsApp = "5574999041959"; // número da pizzaria
       const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensagem)}`;
       window.open(url, "_blank");
     }
+
+    // Log para depuração (ver se os dados vieram)
+    console.log("📦 Dados salvos no localStorage:");
+    console.log("Sabor:", localStorage.getItem("saborPizza"));
+    console.log("Tamanho:", localStorage.getItem("tamanhoPizza"));
+    console.log("Preço:", localStorage.getItem("precoPizza"));
   </script>
 </body>
 </html>
